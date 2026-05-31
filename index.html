@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🚀 Word Galaxy — 중2 어휘 우주 탐험</title>
+<style>
+  :root{
+    --bg-0:#05061a;
+    --bg-1:#0b0d2b;
+    --bg-2:#151847;
+    --neon:#7df9ff;
+    --neon-2:#ff7df9;
+    --neon-3:#a8ff7d;
+    --gold:#ffd84a;
+    --danger:#ff6b8a;
+    --ok:#7dff9a;
+    --text:#eaf1ff;
+    --muted:#a4adc8;
+    --card:#1a1d4a;
+    --card-2:#262a6b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    font-family:'Noto Sans KR','Apple SD Gothic Neo','맑은 고딕',system-ui,-apple-system,sans-serif;
+    color:var(--text);
+    background:radial-gradient(ellipse at top,#1a1f5a 0%,var(--bg-1) 40%,var(--bg-0) 100%);
+    min-height:100vh;
+    overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #stars,#stars2,#stars3{position:fixed;inset:0;pointer-events:none;z-index:0}
+  #stars{background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 40px 70px,#fff,transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(2px 2px at 130px 80px,#fff,transparent),radial-gradient(1px 1px at 180px 20px,#fff,transparent);background-size:200px 100px;opacity:.55;animation:drift 120s linear infinite}
+  #stars2{background-image:radial-gradient(1px 1px at 50px 20px,#cfe9ff,transparent),radial-gradient(1px 1px at 120px 50px,#cfe9ff,transparent),radial-gradient(2px 2px at 80px 90px,#cfe9ff,transparent);background-size:200px 120px;opacity:.4;animation:drift 200s linear infinite}
+  #stars3{background-image:radial-gradient(1px 1px at 10px 60px,#ffeaaa,transparent),radial-gradient(2px 2px at 140px 30px,#ffeaaa,transparent);background-size:220px 140px;opacity:.3;animation:drift 300s linear infinite}
+  @keyframes drift{from{background-position:0 0}to{background-position:1000px 600px}}
+
+  .app{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:18px 16px 60px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(255,255,255,.04);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:.5px;cursor:pointer}
+  .brand .rocket{font-size:22px;filter:drop-shadow(0 0 6px var(--neon))}
+  .brand .lesson-tag{font-size:12px;color:var(--neon-2);background:rgba(255,125,249,.1);border:1px solid rgba(255,125,249,.3);padding:3px 8px;border-radius:999px;margin-left:6px}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+  .stat{background:rgba(125,249,255,.08);border:1px solid rgba(125,249,255,.25);padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .stat.gold{background:rgba(255,216,74,.1);border-color:rgba(255,216,74,.4);color:var(--gold)}
+  .stat.danger{background:rgba(255,107,138,.1);border-color:rgba(255,107,138,.4);color:var(--danger)}
+  .stat.fire{background:rgba(255,153,77,.1);border-color:rgba(255,153,77,.45);color:#ffb15a}
+
+  .screen{margin-top:18px}
+  .hidden{display:none !important}
+
+  /* LESSON PICK */
+  .pick-hero{text-align:center;padding:24px 12px 8px}
+  .pick-hero h1{font-size:36px;margin:8px 0;background:linear-gradient(90deg,var(--neon),var(--neon-2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(125,249,255,.15)}
+  .pick-hero .sub{color:var(--muted);font-size:14px;margin-bottom:4px}
+  .pick-hero .big-rocket{font-size:64px;display:inline-block;animation:bob 2.6s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(125,249,255,.55))}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+
+  .lesson-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+  @media(max-width:640px){.lesson-grid{grid-template-columns:1fr}}
+  .lesson-card{position:relative;padding:18px;border-radius:18px;border:1.5px solid rgba(255,255,255,.12);background:linear-gradient(160deg,var(--card),var(--card-2));cursor:pointer;transition:.2s;box-shadow:0 8px 24px rgba(0,0,0,.4);overflow:hidden}
+  .lesson-card:hover{transform:translateY(-3px);border-color:var(--neon);box-shadow:0 14px 34px rgba(125,249,255,.25)}
+  .lesson-card .lc-bg{position:absolute;right:-30px;top:-20px;font-size:130px;opacity:.08;pointer-events:none}
+  .lesson-card .lc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .lesson-card .lc-num{font-weight:900;font-size:13px;color:var(--neon);letter-spacing:1px}
+  .lesson-card .lc-title{font-size:20px;font-weight:800;margin-top:2px;line-height:1.25}
+  .lesson-card .lc-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+  .lesson-card .lc-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:12px}
+  .lesson-card .lc-meta span{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:4px 8px;border-radius:8px;color:var(--muted)}
+  .lesson-card .lc-meta .stars{color:var(--gold);border-color:rgba(255,216,74,.3);background:rgba(255,216,74,.08)}
+  .lesson-card .lc-bar{margin-top:12px;height:6px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+  .lesson-card .lc-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--neon),var(--neon-2));border-radius:999px}
+  .lesson-card .lc-cta{margin-top:12px;font-size:13px;color:var(--neon);font-weight:700}
+  .lesson-card.cleared{border-color:rgba(168,255,125,.4);background:linear-gradient(160deg,#1c2f3f,#243a5a)}
+  .lesson-card.cleared .lc-cta{color:var(--neon-3)}
+
+  /* HOME (planets map) */
+  .hero{text-align:center;padding:16px 18px 8px}
+  .hero h1{font-size:30px;margin:6px 0;background:linear-gradient(90deg,var(--neon),var(--neon-2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{color:var(--muted);font-size:14px;margin-bottom:12px}
+  .hero .big-rocket{font-size:60px;display:inline-block;animation:bob 2.6s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(125,249,255,.55))}
+
+  .planets-map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 6px;padding:14px;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12);border-radius:18px}
+  @media(max-width:640px){.planets-map{gap:6px;padding:10px}}
+  .planet-cell{position:relative;text-align:center;padding:10px 6px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2);cursor:pointer;transition:.2s}
+  .planet-cell:hover{transform:translateY(-2px);border-color:var(--neon)}
+  .planet-cell.locked{opacity:.45;cursor:not-allowed}
+  .planet-cell .emoji{font-size:34px;display:block;filter:drop-shadow(0 0 8px rgba(255,255,255,.25))}
+  .planet-cell .name{font-size:12px;color:var(--muted);margin-top:2px}
+  .planet-cell .stars{font-size:13px;color:var(--gold);min-height:18px;line-height:1}
+  .planet-cell .range{font-size:10px;color:var(--muted);opacity:.7}
+  .planet-cell.cleared{border-color:rgba(168,255,125,.5);background:rgba(168,255,125,.06)}
+  .planet-cell.locked .emoji{filter:grayscale(.9)}
+
+  .home-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+  .badges-strip{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px;padding:14px;background:rgba(255,255,255,.03);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,216,74,.08);border:1px solid rgba(255,216,74,.25);color:var(--gold);opacity:.35;filter:grayscale(.6)}
+  .badge.earned{opacity:1;filter:none;box-shadow:0 0 14px rgba(255,216,74,.25)}
+
+  /* BUTTONS */
+  .btn{appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:16px;padding:14px 22px;border-radius:14px;background:linear-gradient(135deg,var(--neon),#5fc8ff);color:#021;box-shadow:0 8px 22px rgba(95,200,255,.35),inset 0 -3px 0 rgba(0,0,0,.18);transition:transform .1s,box-shadow .2s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.2);box-shadow:none}
+  .btn.warn{background:linear-gradient(135deg,#ffd84a,#ff9c3f);color:#3a1d00}
+  .btn.danger{background:linear-gradient(135deg,#ff6b8a,#ff3a6f);color:#fff}
+  .btn.small{padding:8px 14px;font-size:14px;border-radius:10px}
+  .btn.huge{font-size:22px;padding:20px 40px;border-radius:18px;letter-spacing:.5px;box-shadow:0 14px 36px rgba(95,200,255,.55),inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 0 rgba(125,249,255,.5);animation:ctaPulse 1.6s ease-in-out infinite}
+  @keyframes ctaPulse{
+    0%,100%{transform:scale(1);box-shadow:0 14px 36px rgba(95,200,255,.55),inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 0 rgba(125,249,255,.55)}
+    50%{transform:scale(1.045);box-shadow:0 18px 48px rgba(95,200,255,.75),inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 12px rgba(125,249,255,0)}
+  }
+  .btn.huge.warn{box-shadow:0 14px 36px rgba(255,156,63,.55),inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 0 rgba(255,216,74,.5);animation:ctaPulseWarn 1.6s ease-in-out infinite}
+  @keyframes ctaPulseWarn{
+    0%,100%{transform:scale(1);box-shadow:0 14px 36px rgba(255,156,63,.55),inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 0 rgba(255,216,74,.55)}
+    50%{transform:scale(1.045);box-shadow:0 18px 48px rgba(255,156,63,.75),inset 0 -4px 0 rgba(0,0,0,.18),0 0 0 12px rgba(255,216,74,0)}
+  }
+  .next-cta{display:flex;justify-content:center;margin:22px 0 6px}
+  .sub-actions{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+
+  /* GAME */
+  .game-card{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:22px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+  .progress-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .progress-track{position:relative;flex:1;height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:visible}
+  .progress-fill{position:absolute;top:0;left:0;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--neon),var(--neon-2));box-shadow:0 0 10px var(--neon);transition:width .35s}
+  .rocket-on-track{position:absolute;top:-14px;font-size:24px;transition:left .35s ease}
+  .progress-text{font-size:13px;color:var(--muted);min-width:64px;text-align:right}
+
+  .planet-banner{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:10px 14px;border-radius:14px;margin-bottom:14px}
+  .planet-banner .pe{font-size:34px}
+  .planet-banner .pn{font-weight:700;font-size:16px}
+  .planet-banner .pd{font-size:12px;color:var(--muted)}
+
+  /* TIMER */
+  .timer-row{display:flex;align-items:center;gap:10px;margin:6px 0 14px}
+  .timer-track{flex:1;position:relative;height:14px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+  .timer-bar{position:absolute;left:0;top:0;height:100%;width:100%;border-radius:999px;background:linear-gradient(90deg,#7dff9a,#7df9ff);box-shadow:0 0 10px rgba(125,255,154,.5);transition:width .1s linear,background .25s}
+  .timer-bar.warn{background:linear-gradient(90deg,#ffd84a,#ff9c3f);box-shadow:0 0 14px rgba(255,156,63,.6)}
+  .timer-bar.danger{background:linear-gradient(90deg,#ff6b8a,#ff3a6f);box-shadow:0 0 18px rgba(255,58,111,.8);animation:barPulse .35s infinite alternate}
+  @keyframes barPulse{from{filter:brightness(1)}to{filter:brightness(1.6)}}
+  .timer-num{font-weight:900;font-size:20px;min-width:50px;text-align:right;font-variant-numeric:tabular-nums;color:var(--neon)}
+  .timer-num.warn{color:var(--gold)}
+  .timer-num.danger{color:var(--danger);text-shadow:0 0 14px rgba(255,107,138,.6);animation:numPulse .5s infinite alternate}
+  @keyframes numPulse{from{transform:scale(1)}to{transform:scale(1.18)}}
+
+  .countdown-big{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.4);font-size:180px;font-weight:900;color:var(--danger);text-shadow:0 0 50px rgba(255,58,111,.8),0 0 100px rgba(255,58,111,.4);opacity:0;pointer-events:none;z-index:55;font-variant-numeric:tabular-nums}
+  .countdown-big.show{animation:cdPop .9s ease-out forwards}
+  @keyframes cdPop{
+    0%{transform:translate(-50%,-50%) scale(.4);opacity:0}
+    25%{transform:translate(-50%,-50%) scale(1.4);opacity:1}
+    100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}
+  }
+
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 0 0 rgba(255,58,111,0);transition:.3s}
+  body.urgent::after{box-shadow:inset 0 0 140px 0 rgba(255,58,111,.55);animation:vignettePulse .55s infinite alternate}
+  @keyframes vignettePulse{from{box-shadow:inset 0 0 100px 0 rgba(255,58,111,.35)}to{box-shadow:inset 0 0 180px 0 rgba(255,58,111,.7)}}
+
+  .q-type{display:inline-block;font-size:12px;font-weight:700;color:var(--neon-2);background:rgba(255,125,249,.1);border:1px solid rgba(255,125,249,.4);padding:4px 10px;border-radius:999px;margin-bottom:10px;letter-spacing:.4px}
+  .q-text{font-size:22px;line-height:1.45;margin:6px 0 4px;font-weight:700}
+  .q-hint{color:var(--muted);font-size:13px;margin-bottom:14px}
+
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:540px){.options{grid-template-columns:1fr}}
+  .option{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);cursor:pointer;text-align:left;font-size:16px;font-weight:600;color:var(--text);transition:.15s;display:flex;align-items:center;gap:10px}
+  .option:hover{border-color:var(--neon);background:rgba(125,249,255,.08)}
+  .option .opt-key{flex:0 0 28px;height:28px;border-radius:8px;background:rgba(255,255,255,.08);display:inline-flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
+  .option.correct{border-color:var(--ok);background:rgba(125,255,154,.15);box-shadow:0 0 16px rgba(125,255,154,.25)}
+  .option.wrong{border-color:var(--danger);background:rgba(255,107,138,.15)}
+  .option.disabled{cursor:not-allowed;opacity:.85}
+
+  .feedback{margin-top:14px;padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);min-height:74px}
+  .feedback.ok{border-color:rgba(125,255,154,.5);background:rgba(125,255,154,.08)}
+  .feedback.bad{border-color:rgba(255,107,138,.5);background:rgba(255,107,138,.08)}
+  .feedback .msg{font-weight:700;font-size:15px;margin-bottom:6px}
+  .feedback .ko{color:var(--gold);font-weight:700}
+  .feedback .def{color:var(--muted);font-size:14px;margin-top:4px}
+  .feedback .next-row{display:flex;justify-content:flex-end;margin-top:10px}
+
+  .combo-pop{position:fixed;left:50%;top:24%;transform:translateX(-50%) scale(.4) rotate(-8deg);font-weight:900;font-size:56px;color:var(--gold);text-shadow:0 0 26px rgba(255,216,74,.9),0 0 60px rgba(255,156,63,.5);opacity:0;pointer-events:none;z-index:50;transition:.45s cubic-bezier(.34,1.56,.64,1);letter-spacing:2px}
+  .combo-pop.show{opacity:1;transform:translateX(-50%) scale(1.15) rotate(2deg)}
+
+  .bonus-pop{position:fixed;left:50%;top:42%;transform:translateX(-50%) translateY(0);font-weight:900;font-size:32px;color:var(--neon-3);text-shadow:0 0 20px rgba(168,255,125,.7);opacity:0;pointer-events:none;z-index:49;transition:.7s ease-out}
+  .bonus-pop.show{opacity:1;transform:translateX(-50%) translateY(-40px)}
+
+  .snd-toggle{appearance:none;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:var(--text);padding:6px 10px;border-radius:999px;font-size:13px;cursor:pointer;font-weight:700}
+  .snd-toggle.off{opacity:.5}
+
+  .complete-card{text-align:center;padding:24px}
+  .complete-card .big-emoji{font-size:80px;display:inline-block;animation:pop .6s ease}
+  @keyframes pop{0%{transform:scale(.3) rotate(-30deg);opacity:0}60%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+  .star-row{font-size:54px;letter-spacing:6px;margin:8px 0;color:var(--gold);text-shadow:0 0 18px rgba(255,216,74,.55)}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+  @media(max-width:540px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+  .stat-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px}
+  .stat-box .lbl{font-size:11px;color:var(--muted)}
+  .stat-box .val{font-size:22px;font-weight:800;color:var(--neon)}
+
+  .review-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;margin-bottom:8px;text-align:left}
+  .review-card .w{font-weight:800;font-size:18px;color:var(--neon-2)}
+  .review-card .pos{font-size:11px;color:var(--muted);margin-left:6px}
+  .review-card .ko{color:var(--gold);font-weight:700}
+  .review-card .def{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.45}
+
+  .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:40}
+  .conf{position:absolute;top:-10px;width:8px;height:14px;border-radius:2px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+  @keyframes shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
+  .shake{animation:shake .5s}
+
+  .heart-pop{position:fixed;left:50%;top:30%;font-size:64px;opacity:0;pointer-events:none;z-index:60;transition:.5s;transform:translate(-50%,0) scale(.5)}
+  .heart-pop.show{opacity:1;transform:translate(-50%,-20px) scale(1.2)}
+
+  .heart-row{font-size:18px;letter-spacing:2px}
+  .heart-row .lost{opacity:.25;filter:grayscale(1)}
+
+  footer{margin-top:30px;text-align:center;color:var(--muted);font-size:12px}
+
+  .center{display:flex;justify-content:center;align-items:center}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .pos-tag{font-size:11px;color:var(--neon);background:rgba(125,249,255,.1);border:1px solid rgba(125,249,255,.3);padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div id="stars"></div><div id="stars2"></div><div id="stars3"></div>
+
+<div class="app">
+  <div class="topbar">
+    <div class="brand" id="brandHome"><span class="rocket">🚀</span><span>Word Galaxy</span><span class="lesson-tag hidden" id="lessonTag">L?</span></div>
+    <div class="stats" id="hud">
+      <span class="stat danger heart-row hidden" id="hudHearts">❤️</span>
+      <span class="stat gold" id="hudScore">⭐ 0</span>
+      <span class="stat fire hidden" id="hudCombo">🔥 0</span>
+      <button class="snd-toggle" id="sndToggle" title="사운드 켜기/끄기">🔊</button>
+    </div>
+  </div>
+
+  <!-- LESSON PICK -->
+  <section id="screen-pick" class="screen">
+    <div class="pick-hero">
+      <div class="big-rocket">🚀</div>
+      <h1>중2 어휘 우주 탐험</h1>
+      <div class="sub">Lesson을 골라서 행성을 정복해보자!</div>
+      <div class="sub">각 과 50단어 안팎 · 5개 행성 · 영영풀이 게임</div>
+    </div>
+    <div class="lesson-grid" id="lessonGrid"></div>
+    <footer>made for 효은쌤 💜 · 모든 단어 학습 · 목숨 7개 · 콤보로 ❤️ 회복 · 15초 타이머</footer>
+  </section>
+
+  <!-- HOME (planets map) -->
+  <section id="screen-home" class="screen hidden">
+    <div class="hero">
+      <div class="big-rocket">🚀</div>
+      <h1 id="homeTitle">Lesson 4</h1>
+      <div class="sub" id="homeSub">단어 1~50 · 5개 행성 정복!</div>
+    </div>
+    <div class="planets-map" id="planetsMap"></div>
+    <div class="home-actions">
+      <button class="btn" id="btnStart">🚀 다음 행성 출발!</button>
+      <button class="btn ghost" id="btnBack">📚 다른 과 선택</button>
+      <button class="btn ghost" id="btnReset">🔄 진행 초기화</button>
+    </div>
+    <div class="badges-strip" id="badgesStrip"></div>
+  </section>
+
+  <!-- GAME -->
+  <section id="screen-game" class="screen hidden">
+    <div class="game-card">
+      <div class="planet-banner">
+        <div class="pe" id="gpEmoji">🌙</div>
+        <div>
+          <div class="pn" id="gpName">Moon Base</div>
+          <div class="pd" id="gpDesc">단어 1~10 · 영영풀이로 정답을 골라봐</div>
+        </div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-track">
+          <div class="progress-fill" id="progFill" style="width:0%"></div>
+          <span class="rocket-on-track" id="progRocket" style="left:0%">🚀</span>
+        </div>
+        <div class="progress-text" id="progText">0/10</div>
+      </div>
+
+      <div class="timer-row">
+        <div class="timer-track"><div class="timer-bar" id="timerBar"></div></div>
+        <div class="timer-num" id="timerNum">15s</div>
+      </div>
+
+      <div class="q-type" id="qType">영영풀이 → 영어 단어</div>
+      <div class="q-text" id="qText">…</div>
+      <div class="q-hint" id="qHint"></div>
+
+      <div class="options" id="opts"></div>
+
+      <div class="feedback hidden" id="feedback"></div>
+    </div>
+
+    <div class="row" style="justify-content:space-between;margin-top:12px">
+      <button class="btn ghost small" id="btnHome">🏠 행성 지도</button>
+      <button class="btn ghost small" id="btnSkip">⏭ 건너뛰기 (❤️ -1)</button>
+    </div>
+  </section>
+
+  <!-- PLANET COMPLETE -->
+  <section id="screen-complete" class="screen hidden">
+    <div class="game-card complete-card">
+      <div class="big-emoji" id="cmpEmoji">🌟</div>
+      <h2 id="cmpTitle">행성 정복!</h2>
+      <div class="star-row" id="cmpStars">⭐⭐⭐</div>
+      <div class="sub" id="cmpMsg">완벽해! 다음 행성으로 출발하자.</div>
+
+      <div class="stat-grid">
+        <div class="stat-box"><div class="lbl">정답</div><div class="val" id="cmpCorrect">0</div></div>
+        <div class="stat-box"><div class="lbl">오답</div><div class="val" id="cmpWrong">0</div></div>
+        <div class="stat-box"><div class="lbl">최고 콤보</div><div class="val" id="cmpCombo">0</div></div>
+        <div class="stat-box"><div class="lbl">획득 점수</div><div class="val" id="cmpScore">0</div></div>
+      </div>
+
+      <div id="reviewSection"></div>
+
+      <div class="next-cta">
+        <button class="btn huge" id="btnNext">🚀 다음 행성</button>
+      </div>
+      <div class="sub-actions">
+        <button class="btn ghost small" id="btnRetry">🔁 이 행성 다시</button>
+        <button class="btn ghost small" id="btnHome2">🏠 행성 지도</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME OVER -->
+  <section id="screen-over" class="screen hidden">
+    <div class="game-card complete-card">
+      <div class="big-emoji">💫</div>
+      <h2>우주에서 길을 잃었어!</h2>
+      <div class="sub" id="overMsg">목숨이 다 떨어졌어. 다시 도전하면 더 잘할 수 있어!</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="lbl">정답</div><div class="val" id="overCorrect">0</div></div>
+        <div class="stat-box"><div class="lbl">오답</div><div class="val" id="overWrong">0</div></div>
+        <div class="stat-box"><div class="lbl">최고 콤보</div><div class="val" id="overCombo">0</div></div>
+        <div class="stat-box"><div class="lbl">점수</div><div class="val" id="overScore">0</div></div>
+      </div>
+      <div class="next-cta">
+        <button class="btn huge warn" id="btnOverRetry">🔁 이 행성 다시 도전</button>
+      </div>
+      <div class="sub-actions">
+        <button class="btn ghost small" id="btnOverHome">🏠 행성 지도</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALL CLEAR -->
+  <section id="screen-allclear" class="screen hidden">
+    <div class="game-card complete-card">
+      <div class="big-emoji">🏆</div>
+      <h2 id="acTitle">은하계 정복 완료!</h2>
+      <div class="star-row" id="totalStars">⭐⭐⭐⭐⭐</div>
+      <div class="sub" id="acSub">모든 단어를 정복했어! 진정한 Word Master! 🎉</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="lbl">총 점수</div><div class="val" id="acScore">0</div></div>
+        <div class="stat-box"><div class="lbl">획득 별</div><div class="val" id="acStars">0/15</div></div>
+        <div class="stat-box"><div class="lbl">배지</div><div class="val" id="acBadges">0</div></div>
+        <div class="stat-box"><div class="lbl">최고 콤보</div><div class="val" id="acCombo">0</div></div>
+      </div>
+      <div class="next-cta">
+        <button class="btn huge" id="btnAcNext">🚀 다른 Lesson 도전</button>
+      </div>
+      <div class="sub-actions">
+        <button class="btn ghost small" id="btnAcHome">🏠 행성 지도</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="combo-pop" id="comboPop"></div>
+<div class="heart-pop" id="heartPop">❤️ +1</div>
+<div class="bonus-pop" id="bonusPop"></div>
+<div class="countdown-big" id="countdownBig"></div>
+
+<script>
+/* ============================================================
+   DATA — All 4 lessons embedded
+   ============================================================ */
+const LESSON_VOCAB = {
+  L1: [
+    {n: 1, w:"plan", pos:"동/명", def:"to think about the parts of something before it happens; something that a person has decided to do", ko:"계획하다; 계획"},
+    {n: 2, w:"shopping mall", pos:"", def:"a large building with many shops, restaurants, etc. in it", ko:"쇼핑몰"},
+    {n: 3, w:"present", pos:"명", def:"a gift", ko:"선물"},
+    {n: 4, w:"bus stop", pos:"", def:"a place at the side of the road where buses stop", ko:"버스 정류장"},
+    {n: 5, w:"pack", pos:"동", def:"to put things in a bag or suitcase to take with you", ko:"(짐을) 싸다"},
+    {n: 6, w:"site", pos:"명", def:"a place that is used for a particular activity", ko:"장소"},
+    {n: 7, w:"barbecue", pos:"명", def:"an outdoor party at which food is cooked on a grill", ko:"바비큐 파티"},
+    {n: 8, w:"take a walk", pos:"", def:"to go for a walk", ko:"산책하다"},
+    {n: 9, w:"cinema", pos:"명", def:"a movie theater", ko:"영화관, 극장"},
+    {n:10, w:"yet", pos:"부", def:"until now", ko:"아직"},
+    {n:11, w:"skateboard", pos:"명", def:"a short board with wheels at each end, which you ride on", ko:"스케이트보드"},
+    {n:12, w:"central", pos:"형", def:"located in the center of a thing or place", ko:"중앙의"},
+    {n:13, w:"square", pos:"명", def:"an open area in a town with four sides", ko:"광장"},
+    {n:14, w:"cartoon", pos:"명", def:"a series of drawings inside boxes that tell a story", ko:"만화"},
+    {n:15, w:"board game", pos:"", def:"a game that is played by moving pieces on a special board", ko:"보드게임"},
+    {n:16, w:"community", pos:"명", def:"a group of people who live in the same area", ko:"주민, 지역 사회"},
+    {n:17, w:"center", pos:"명", def:"a building used for a particular purpose or activity", ko:"종합 시설"},
+    {n:18, w:"joke", pos:"명", def:"something that you say to make people laugh", ko:"농담"},
+    {n:19, w:"listener", pos:"명", def:"a person who listens", ko:"듣는 사람"},
+    {n:20, w:"positive", pos:"형", def:"thinking about the good qualities of somebody or something", ko:"긍정적인"},
+    {n:21, w:"mind", pos:"명", def:"the part of a person that thinks and feels", ko:"마음, 정신"},
+    {n:22, w:"cheer up", pos:"", def:"to make somebody happier", ko:"격려하다"},
+    {n:23, w:"prize", pos:"명", def:"an award that is given to a person who wins a competition", ko:"상, 상품"},
+    {n:24, w:"make friends", pos:"", def:"to meet new people and become friends with them", ko:"친구를 사귀다"},
+    {n:25, w:"competition", pos:"명", def:"an event in which people compete against others", ko:"대회"},
+    {n:26, w:"jealous", pos:"형", def:"feeling upset because somebody has something that you want", ko:"질투하는"},
+    {n:27, w:"congratulate", pos:"동", def:"to tell someone that you are happy about their success", ko:"축하하다"},
+    {n:28, w:"at first", pos:"", def:"in the beginning", ko:"처음에는"},
+    {n:29, w:"honest", pos:"형", def:"telling the truth, not lying", ko:"솔직한"},
+    {n:30, w:"advice", pos:"명", def:"an opinion that somebody offers about what you should do", ko:"조언, 충고"},
+    {n:31, w:"upset", pos:"형", def:"unhappy or disappointed", ko:"속상한, 마음이 상한"},
+    {n:32, w:"decide", pos:"동", def:"to make up one’s mind to do something", ko:"결심하다, 결정하다"},
+    {n:33, w:"on time", pos:"", def:"at the correct time", ko:"시간을 지키는, 정각에"},
+    {n:34, w:"fully", pos:"부", def:"completely or entirely", ko:"완전히, 충분히"},
+    {n:35, w:"thankfully", pos:"부", def:"in a way that shows you are grateful", ko:"다행히, 고맙게도"},
+    {n:36, w:"have a hard time", pos:"", def:"to have problems because something is difficult for you", ko:"힘든 시간을 보내다"},
+    {n:37, w:"one day", pos:"", def:"on a particular day", ko:"어느 날"},
+    {n:38, w:"social media", pos:"", def:"websites and programs used to communicate with others online", ko:"소셜 미디어"},
+    {n:39, w:"booth", pos:"명", def:"a small space with walls for doing something privately", ko:"작은 공간"},
+    {n:40, w:"reason", pos:"명", def:"a cause or explanation for an action, opinion, or event", ko:"이유"},
+    {n:41, w:"friendship", pos:"명", def:"the state of being friends", ko:"교우 관계, 우정"},
+    {n:42, w:"hairstyle", pos:"명", def:"the way someone’s hair is cut or shaped", ko:"머리 모양, 헤어스타일"},
+    {n:43, w:"truth", pos:"명", def:"the real facts about something", ko:"사실, 진실"},
+    {n:44, w:"award", pos:"명", def:"a prize for something that somebody has done", ko:"상"},
+    {n:45, w:"diner", pos:"명", def:"a small, usually cheap, restaurant", ko:"작은 식당"},
+    {n:46, w:"elementary school", pos:"", def:"a school for children", ko:"초등학교"},
+    {n:47, w:"caring", pos:"형", def:"kind and helpful", ko:"배려하는"},
+    {n:48, w:"thoughtful", pos:"형", def:"showing that you think about and care for other people", ko:"사려 깊은"},
+    {n:49, w:"active", pos:"형", def:"lively and energetic", ko:"활동적인, 적극적인"},
+    {n:50, w:"lucky", pos:"형", def:"having good things happen by chance", ko:"운이 좋은"},
+  ],
+  L2: [
+    {n: 1, w:"lend a hand", pos:"", def:"to help somebody", ko:"도움을 주다"},
+    {n: 2, w:"fix", pos:"동", def:"to repair something", ko:"고치다, 수리하다"},
+    {n: 3, w:"situation", pos:"명", def:"all of the things that are happening at a particular time and place", ko:"상황"},
+    {n: 4, w:"laptop", pos:"명", def:"a small computer that is easy to carry", ko:"노트북 컴퓨터"},
+    {n: 5, w:"cleanup", pos:"명", def:"the act of removing dirt, pollution, etc. from a place", ko:"대청소"},
+    {n: 6, w:"volunteer", pos:"명/동", def:"a person who does a job for free; to offer to do something without being paid or forced to", ko:"자원봉사자; 자원봉사로 하다"},
+    {n: 7, w:"sweep", pos:"동", def:"to clean a room, surface, etc. using a brush", ko:"쓸다, 청소하다"},
+    {n: 8, w:"trash", pos:"명", def:"things that you throw away", ko:"쓰레기"},
+    {n: 9, w:"neighborhood", pos:"명", def:"the area of a town that is around someone’s home", ko:"(도시의) 지역"},
+    {n:10, w:"local", pos:"형", def:"belonging to or connected with a particular place", ko:"지역의, 현지의"},
+    {n:11, w:"bookshelf", pos:"명", def:"a shelf that holds books", ko:"책꽂이"},
+    {n:12, w:"animal shelter", pos:"", def:"a place where lost or unwanted animals are cared for", ko:"동물 보호소"},
+    {n:13, w:"puppy", pos:"명", def:"a young dog", ko:"강아지"},
+    {n:14, w:"cage", pos:"명", def:"a box made of bars or wire used to hold animals or birds", ko:"(짐승의) 우리, 새장"},
+    {n:15, w:"in need", pos:"", def:"in a difficult situation and needing help", ko:"어려움에 처한"},
+    {n:16, w:"kitchen", pos:"명", def:"a room where food is prepared and cooked", ko:"부엌"},
+    {n:17, w:"campaign", pos:"명", def:"a set of activities designed to have a specific result", ko:"(사회적 · 정치적) 운동, 캠페인"},
+    {n:18, w:"announce", pos:"동", def:"to officially tell people something or make something known", ko:"발표하다, 알리다"},
+    {n:19, w:"fill", pos:"동", def:"to make or become full", ko:"채우다"},
+    {n:20, w:"tray", pos:"명", def:"a flat piece of plastic, metal or wood used to carry things, especially food", ko:"쟁반"},
+    {n:21, w:"gather", pos:"동", def:"to come together in a group", ko:"모이다"},
+    {n:22, w:"comfortable", pos:"형", def:"feeling relaxed", ko:"편한, 쾌적한"},
+    {n:23, w:"solve", pos:"동", def:"to find an answer to a problem", ko:"(문제를) 풀다, 해결하다"},
+    {n:24, w:"principal", pos:"명", def:"the person who is in charge of a school", ko:"교장"},
+    {n:25, w:"success", pos:"명", def:"a good result from doing something well", ko:"성공"},
+    {n:26, w:"sensor", pos:"명", def:"a device that can react to light, heat, pressure, etc", ko:"센서, 감지기"},
+    {n:27, w:"kiosk", pos:"명", def:"a small machine with a computer screen that is used to provide information or services", ko:"키오스크"},
+    {n:28, w:"step", pos:"명", def:"one stage in a process", ko:"단계"},
+    {n:29, w:"order", pos:"동/명", def:"to ask for food or drinks in a restaurant, café, etc.; a request for food or drinks at a restaurant, café, etc", ko:"주문하다; 주문"},
+    {n:30, w:"pay", pos:"동", def:"to give money to someone for something", ko:"(돈을) 내다, 지불하다"},
+    {n:31, w:"proud", pos:"형", def:"feeling pleased about something you own or have done", ko:"자랑스러운"},
+    {n:32, w:"make a difference", pos:"", def:"to improve a situation", ko:"변화를 가져오다, 영향을 주다"},
+    {n:33, w:"dirty", pos:"형", def:"not clean", ko:"더러운, 지저분한"},
+    {n:34, w:"damage", pos:"동", def:"to harm something", ko:"훼손하다"},
+    {n:35, w:"fold", pos:"동", def:"to bend something, especially paper or cloth", ko:"(종이 · 천 등을) 접다"},
+    {n:36, w:"bookmark", pos:"명", def:"something you put between the pages of a book to mark the page", ko:"책갈피"},
+    {n:37, w:"hurry", pos:"동", def:"to move or act quickly", ko:"서두르다"},
+    {n:38, w:"already", pos:"부", def:"before the present or a particular time in the past", ko:"이미, 벌써"},
+    {n:39, w:"get off", pos:"", def:"to leave a train, bus, or aircraft, etc", ko:"내리다, 하차하다"},
+    {n:40, w:"be good at", pos:"", def:"to have the skills and knowledge to do something well", ko:"~을 잘하다"},
+    {n:41, w:"meaningful", pos:"형", def:"useful, serious, or important", ko:"의미 있는, 중요한"},
+    {n:42, w:"hospital", pos:"명", def:"a place where sick or injured people are given treatment or care", ko:"병원"},
+    {n:43, w:"nursing home", pos:"", def:"a private hospital where old people live and are cared for", ko:"요양원"},
+    {n:44, w:"homeroom teacher", pos:"", def:"a teacher who is responsible for students in a homeroom class", ko:"담임 교사"},
+    {n:45, w:"greet", pos:"동", def:"to say hello to somebody or to welcome them", ko:"맞다, 환영하다"},
+    {n:46, w:"visitor", pos:"명", def:"a person who visits a person or place", ko:"방문객, 손님"},
+  ],
+  L3: [
+    {n: 1, w:"look forward to", pos:"", def:"to feel excited about something that is going to happen", ko:"~을 기대하다"},
+    {n: 2, w:"booth", pos:"명", def:"a small temporary structure at an exhibition", ko:"임시 점포 [ 전시장 ]"},
+    {n: 3, w:"experiment", pos:"명", def:"a scientific test to learn about something", ko:"실험"},
+    {n: 4, w:"brain", pos:"명", def:"the organ in the body that controls thoughts, feelings, and movement", ko:"두뇌"},
+    {n: 5, w:"play", pos:"명", def:"a piece of writing that is performed by actors on a stage", ko:"연극"},
+    {n: 6, w:"run", pos:"동", def:"to manage the business or activities of something", ko:"운영하다"},
+    {n: 7, w:"come true", pos:"", def:"to become reality", ko:"이루어지다, 실현되다"},
+    {n: 8, w:"achieve", pos:"동", def:"to reach an aim, especially by working hard", ko:"성취하다, 이루다"},
+    {n: 9, w:"thankful", pos:"형", def:"feeling grateful", ko:"고맙게 생각하는, 감사하는"},
+    {n:10, w:"safely", pos:"부", def:"in a way that avoids danger", ko:"안전하게"},
+    {n:11, w:"serve", pos:"동", def:"to give someone food or drinks", ko:"(음식을) 제공하다"},
+    {n:12, w:"enter", pos:"동", def:"to come or go into a place", ko:"들어가다"},
+    {n:13, w:"facility", pos:"명", def:"a building or piece of equipment that is provided for a specific purpose", ko:"시설"},
+    {n:14, w:"gate", pos:"명", def:"a part of a wall or fence that opens and closes like a door", ko:"문, 정문"},
+    {n:15, w:"sunset", pos:"명", def:"the time when the sun goes down", ko:"해질녘"},
+    {n:16, w:"stand in line", pos:"", def:"to stand in a row while waiting one’s turn", ko:"줄을 서다"},
+    {n:17, w:"until", pos:"전", def:"up to the point in time", ko:"~까지"},
+    {n:18, w:"court", pos:"명", def:"a place where games such as tennis and basketball are played", ko:"(스포츠를 하는) 경기장, 코트"},
+    {n:19, w:"student president", pos:"", def:"a student who is chosen to lead and represent other students in school", ko:"학생회장"},
+    {n:20, w:"play a role", pos:"", def:"to fulfill one’s duty", ko:"역할을 하다"},
+    {n:21, w:"behind the scenes", pos:"", def:"in a way that most people are not aware of", ko:"보이지 않는 곳에서"},
+    {n:22, w:"present", pos:"동", def:"to give something to someone, especially at a ceremony", ko:"수여하다"},
+    {n:23, w:"drum roll", pos:"", def:"a series of quick beats on a drum", ko:"(연속적인) 북 소리"},
+    {n:24, w:"manager", pos:"명", def:"somebody who is in charge of a department, business, etc", ko:"관리자"},
+    {n:25, w:"air conditioner", pos:"명", def:"a machine that cools air", ko:"에어컨"},
+    {n:26, w:"break down", pos:"", def:"to stop working because something has gone wrong", ko:"고장 나다"},
+    {n:27, w:"right away", pos:"", def:"immediately, without delay", ko:"곧, 즉시"},
+    {n:28, w:"staff", pos:"명", def:"all of the people who work for an organization", ko:"(전체) 직원"},
+    {n:29, w:"prepare", pos:"동", def:"to get everything ready before doing something", ko:"준비하다"},
+    {n:30, w:"fresh", pos:"형", def:"recently made or cooked", ko:"신선한, 갓 만든"},
+    {n:31, w:"final", pos:"형", def:"happening at the end", ko:"마지막의"},
+    {n:32, w:"security", pos:"명", def:"the actions involved in keeping a person safe from danger", ko:"보안, 경비"},
+    {n:33, w:"make sure", pos:"", def:"to check to be certain", ko:"확실하게 하다"},
+    {n:34, w:"focus on", pos:"", def:"to give a lot of attention to a particular subject, thing, or person", ko:"~에 집중하다"},
+    {n:35, w:"thanks to", pos:"", def:"with the help of someone or something", ko:"~ 덕분에"},
+    {n:36, w:"do one's best", pos:"", def:"to try as hard as one can", ko:"최선을 다하다"},
+    {n:37, w:"congratulations", pos:"명", def:"a message congratulating somebody", ko:"축하 (인사)"},
+    {n:38, w:"electricity", pos:"명", def:"a form of energy that is used to power lights, machines, etc", ko:"전기, 전력"},
+    {n:39, w:"go out", pos:"", def:"to stop burning or shining", ko:"(불 · 전기 등이) 꺼지다 [ 나가다 ]"},
+    {n:40, w:"librarian", pos:"명", def:"a person who is in charge of a library", ko:"(도서관의) 사서"},
+    {n:41, w:"recommend", pos:"동", def:"to tell somebody that something is good or useful", ko:"추천하다"},
+    {n:42, w:"fear", pos:"동", def:"to be scared of somebody or something", ko:"두려워하다, 무서워하다"},
+    {n:43, w:"field trip", pos:"", def:"a trip that students take to learn about something outside of school", ko:"현장 학습"},
+    {n:44, w:"contest", pos:"명", def:"a sport or competition that people try to win to get a prize", ko:"대회, 시합"},
+    {n:45, w:"medicine", pos:"명", def:"a substance used to treat illnesses that is usually in the form of a liquid or pill", ko:"약"},
+    {n:46, w:"propose", pos:"동", def:"to suggest an idea for others to think about", ko:"제안하다"},
+    {n:47, w:"fair", pos:"명", def:"an event at which people show and sell their products", ko:"박람회, 전시회"},
+    {n:48, w:"career", pos:"명", def:"a job that someone does for a long time", ko:"직업"},
+    {n:49, w:"debate", pos:"명", def:"a discussion in which people express different opinions", ko:"토론"},
+    {n:50, w:"set up", pos:"", def:"to put something in place and make it ready to use", ko:"설치하다"},
+  ],
+  L4: [
+    {n: 1, w:"cough", pos:"명/동", def:"an illness that makes you force air noisily through your throat; to force air noisily through your throat", ko:"기침; 기침하다"},
+    {n: 2, w:"fever", pos:"명", def:"a body temperature that is higher than usual", ko:"열"},
+    {n: 3, w:"headache", pos:"명", def:"a pain you feel in your head", ko:"두통"},
+    {n: 4, w:"sore throat", pos:"", def:"a pain in the throat, usually because of a cold or other virus", ko:"인후염"},
+    {n: 5, w:"runny nose", pos:"", def:"a condition where liquid flows from the nose", ko:"콧물"},
+    {n: 6, w:"plenty of", pos:"", def:"more than enough of something, or a large amount", ko:"많은"},
+    {n: 7, w:"muscle", pos:"명", def:"a body tissue that can tighten and relax to produce movement", ko:"근육"},
+    {n: 8, w:"surgery", pos:"명", def:"a medical procedure to fix or improve something", ko:"수술"},
+    {n: 9, w:"pain", pos:"명", def:"the physical feeling caused by injury or illness", ko:"통증, 고통"},
+    {n:10, w:"bloody nose", pos:"", def:"a flow of blood that comes from the nose", ko:"코피"},
+    {n:11, w:"pinch", pos:"동", def:"to press something tightly between your thumb and finger or between two things", ko:"(손가락으로) 꼭 집다"},
+    {n:12, w:"dry", pos:"형", def:"not wet or sticky", ko:"건조한, 마른"},
+    {n:13, w:"stomachache", pos:"명", def:"pain in your stomach", ko:"복통"},
+    {n:14, w:"habit", pos:"명", def:"something you do often, almost without thinking about it", ko:"습관"},
+    {n:15, w:"soft drink", pos:"", def:"a cold, usually sweet, drink that does not contain alcohol", ko:"청량음료"},
+    {n:16, w:"dentist", pos:"명", def:"a person whose job is to take care of people’s teeth", ko:"치과 의사"},
+    {n:17, w:"regularly", pos:"부", def:"with similar amounts of time between one and the next", ko:"정기적으로, 규칙적으로"},
+    {n:18, w:"tiredness", pos:"명", def:"the feeling that you need to sleep or rest", ko:"피로"},
+    {n:19, w:"skin", pos:"명", def:"the outside of your body", ko:"피부"},
+    {n:20, w:"memory", pos:"명", def:"the ability to remember things", ko:"기억(력)"},
+    {n:21, w:"creativity", pos:"명", def:"the ability to think of new ideas or produce new things", ko:"창의력, 독창성"},
+    {n:22, w:"physical", pos:"형", def:"connected with a person’s body rather than their mind", ko:"신체의, 육체의"},
+    {n:23, w:"regular", pos:"형", def:"following a pattern with similar amounts of time between one and the next", ko:"규칙적인, 정기적인"},
+    {n:24, w:"quality", pos:"명", def:"the standard of how good or bad something is", ko:"질"},
+    {n:25, w:"matter", pos:"동", def:"to be important or to have an effect on what happens", ko:"중요하다"},
+    {n:26, w:"active", pos:"형", def:"busy with a particular activity", ko:"활동적인"},
+    {n:27, w:"teenager", pos:"명", def:"somebody who is between 13 and 19 years old", ko:"십 대"},
+    {n:28, w:"repair", pos:"동", def:"to make something return to a good or healthy condition", ko:"회복하다"},
+    {n:29, w:"cell", pos:"명", def:"the smallest basic unit of all living things", ko:"세포"},
+    {n:30, w:"clear", pos:"동", def:"to remove things that are not needed or wanted", ko:"치우다, 제거하다"},
+    {n:31, w:"imagine", pos:"동", def:"to make a picture in your mind", ko:"상상하다"},
+    {n:32, w:"unnecessary", pos:"형", def:"not needed or wanted", ko:"불필요한"},
+    {n:33, w:"point", pos:"명", def:"an opinion or piece of information that is written or said", ko:"의견, 주장"},
+    {n:34, w:"weekday", pos:"명", def:"any day except Saturday and Sunday", ko:"평일"},
+    {n:35, w:"pattern", pos:"명", def:"the regular way in which something is done or happens", ko:"(규칙적인) 패턴, 양식"},
+    {n:36, w:"lead to", pos:"", def:"to result in something", ko:"~로 이어지다"},
+    {n:37, w:"researcher", pos:"명", def:"somebody who studies a subject to discover new facts about it", ko:"연구원, 조사자"},
+    {n:38, w:"asleep", pos:"형", def:"sleeping or not awake", ko:"잠이 든"},
+    {n:39, w:"stay up late", pos:"", def:"to go to bed later than usual", ko:"늦게까지 깨어 있다"},
+    {n:40, w:"scream", pos:"동", def:"to make a loud, high sound with your voice because you are scared, surprised, etc", ko:"비명을 지르다"},
+    {n:41, w:"fool", pos:"동", def:"to make somebody believe something that is not true", ko:"속이다, 기만하다"},
+    {n:42, w:"enjoyable", pos:"형", def:"making you feel happy", ko:"즐거운"},
+    {n:43, w:"challenge", pos:"명", def:"a task that tests someone’s ability or skill", ko:"도전"},
+    {n:44, w:"properly", pos:"부", def:"in the right way", ko:"제대로, 적절히"},
+    {n:45, w:"at least", pos:"", def:"not less than", ko:"적어도, 최소한"},
+    {n:46, w:"plate", pos:"명", def:"a flat, usually round dish that you eat from or serve food on", ko:"접시, 그릇"},
+    {n:47, w:"record", pos:"동", def:"to put in writing", ko:"기록하다"},
+    {n:48, w:"uncomfortable", pos:"형", def:"not feeling pleasant or comfortable", ko:"불편한"},
+    {n:49, w:"back", pos:"명", def:"the rear part of the body between the neck and bottom", ko:"허리"},
+    {n:50, w:"backpack", pos:"명", def:"a bag that you carry on your back", ko:"배낭"},
+  ],
+};
+
+const LESSON_META = {
+  L1: { title:"Lesson 1", subtitle:"Welcome to My Place", planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L2: { title:"Lesson 2", subtitle:"Together We Can",     planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L3: { title:"Lesson 3", subtitle:"Festival Time",       planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L4: { title:"Lesson 4", subtitle:"Healthy Habits",      planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+};
+
+const PLANET_PRESETS = [
+  {emoji:"🚀", name:"Launch Pad"},
+  {emoji:"🌙", name:"Moon Base"},
+  {emoji:"🪐", name:"Saturn Ring"},
+  {emoji:"🌌", name:"Nebula"},
+  {emoji:"⭐", name:"Star Core"},
+];
+
+function makePlanetsFor(L){
+  const vocab = LESSON_VOCAB[L];
+  const total = vocab.length;
+  const n = PLANET_PRESETS.length;
+  const per = Math.ceil(total / n);
+  return PLANET_PRESETS.map((p,i)=>{
+    const lo = i*per + 1;
+    const hi = Math.min((i+1)*per, total);
+    return { id:i, emoji:p.emoji, name:p.name, range:[lo,hi], desc:`단어 ${lo}~${hi}` };
+  }).filter(p => p.range[0] <= total);
+}
+
+const BADGES = [
+  {id:"first",     emoji:"🎯", name:"첫 정답",       cond:s=>s.totalCorrect>=1},
+  {id:"combo5",    emoji:"🔥", name:"5연속 콤보",    cond:s=>s.maxCombo>=5},
+  {id:"combo10",   emoji:"💥", name:"10연속 콤보",   cond:s=>s.maxCombo>=10},
+  {id:"perfect1",  emoji:"🌟", name:"퍼펙트 행성",   cond:s=>s.perfectPlanets>=1},
+  {id:"perfect3",  emoji:"✨", name:"퍼펙트 ×3",     cond:s=>s.perfectPlanets>=3},
+  {id:"clear3",    emoji:"🚀", name:"3행성 정복",    cond:s=>s.clearedPlanets>=3},
+  {id:"clear5",    emoji:"👑", name:"이 과 정복",    cond:s=>s.clearedPlanets>=5},
+  {id:"stars10",   emoji:"⭐", name:"별 10개",       cond:s=>s.totalStars>=10},
+  {id:"stars15",   emoji:"🏆", name:"올스타 (15★)", cond:s=>s.totalStars>=15},
+  {id:"speed",     emoji:"⚡", name:"스피드러너",    cond:s=>s.fastAnswers>=10},
+];
+
+const ENCOURAGE_WRONG = [
+  "괜찮아! 한 번 더 보면 외워질 거야 💪",
+  "오답이 진짜 학습의 기회! 다음 문제 가자 🚀",
+  "거의 다 왔어. 이번엔 외웠지? ✨",
+  "이 단어는 어려운 단어야! 다시 도전 🌟",
+  "Don't give up! 한 발씩 가면 돼 🌙",
+];
+const ENCOURAGE_RIGHT = [
+  "완벽해! 🌟", "그렇지! 🚀", "Excellent! ✨",
+  "단어 마스터! 💫", "Wow! 🔥", "Brilliant! 💎",
+];
+
+/* ============================================================
+   STATE — per-lesson stored under wordgalaxy_v2
+   ============================================================ */
+const SAVE_KEY = "wordgalaxy_v2";
+const MAX_HEARTS = 7;
+const TIME_PER_Q = 15;
+const TIME_BONUS_PER_SEC = 25;
+
+let curLesson = null; // "L1".."L4"
+
+function defaultLessonState(L){
+  const planetCount = makePlanetsFor(L).length;
+  return {
+    planetStars:    Array(planetCount).fill(0),
+    planetCleared:  Array(planetCount).fill(false),
+    badges: [],
+    totalScore: 0,
+    totalCorrect: 0,
+    totalWrong: 0,
+    maxCombo: 0,
+    perfectPlanets: 0,
+    fastAnswers: 0,
+  };
+}
+function defaultRoot(){
+  return { lessons: { L1:defaultLessonState("L1"), L2:defaultLessonState("L2"), L3:defaultLessonState("L3"), L4:defaultLessonState("L4") } };
+}
+function loadRoot(){
+  try{
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(!raw) return defaultRoot();
+    const parsed = JSON.parse(raw);
+    const root = defaultRoot();
+    if(parsed.lessons){
+      for(const L of ["L1","L2","L3","L4"]){
+        if(parsed.lessons[L]) root.lessons[L] = Object.assign(defaultLessonState(L), parsed.lessons[L]);
+      }
+    }
+    return root;
+  }catch(e){ return defaultRoot(); }
+}
+function saveRoot(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(R)); }catch(e){} }
+
+let R = loadRoot();
+let S = null;   // current lesson's state
+let PLANETS = null; // current lesson's planets
+
+function setLesson(L){
+  curLesson = L;
+  S = R.lessons[L];
+  PLANETS = makePlanetsFor(L);
+  // recalc derived
+  S.totalStars = S.planetStars.reduce((a,b)=>a+b,0);
+  S.clearedPlanets = S.planetCleared.filter(Boolean).length;
+  // update tag
+  const tag = $("#lessonTag");
+  tag.textContent = L;
+  tag.classList.remove("hidden");
+}
+function clearLesson(){
+  curLesson = null; S = null; PLANETS = null;
+  $("#lessonTag").classList.add("hidden");
+  $("#hudHearts").classList.add("hidden");
+  $("#hudCombo").classList.add("hidden");
+}
+
+let G = null;
+
+/* ============================================================
+   UTIL
+   ============================================================ */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => document.querySelectorAll(sel);
+function show(id){ $$(".screen").forEach(s=>s.classList.add("hidden")); $(id).classList.remove("hidden"); window.scrollTo({top:0,behavior:"smooth"}); }
+function shuffle(a){ const x=a.slice(); for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];} return x; }
+function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+function capitalize(s){ s=String(s).trim(); return s ? s[0].toUpperCase()+s.slice(1) : s; }
+
+/* ============================================================
+   SOUND
+   ============================================================ */
+let ac=null, masterGain=null, bgmGain=null, bgmTimer=null, soundOn=true;
+function audio(){
+  if(!ac){
+    try{
+      ac=new (window.AudioContext||window.webkitAudioContext)();
+      masterGain = ac.createGain(); masterGain.gain.value = 0.9; masterGain.connect(ac.destination);
+      bgmGain = ac.createGain();    bgmGain.gain.value = 0.55;   bgmGain.connect(masterGain);
+    }catch(e){}
+  }
+  if(ac && ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(freq, dur, type, vol, delay, dest){
+  const c = audio(); if(!c || !soundOn) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.value = freq;
+  const t = c.currentTime + (delay||0);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t+0.005);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  o.connect(g); g.connect(dest || masterGain || c.destination);
+  o.start(t); o.stop(t+dur+0.02);
+}
+function noise(dur, vol, delay, hp){
+  const c = audio(); if(!c || !soundOn) return;
+  const bufSize = c.sampleRate * dur;
+  const buf = c.createBuffer(1, bufSize, c.sampleRate);
+  const data = buf.getChannelData(0);
+  for(let i=0;i<bufSize;i++) data[i] = (Math.random()*2-1);
+  const src = c.createBufferSource(); src.buffer = buf;
+  const g = c.createGain();
+  const t = c.currentTime + (delay||0);
+  g.gain.setValueAtTime(vol, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  if(hp){
+    const filt = c.createBiquadFilter();
+    filt.type = "highpass"; filt.frequency.value = hp;
+    src.connect(filt); filt.connect(g);
+  } else { src.connect(g); }
+  g.connect(masterGain || c.destination);
+  src.start(t); src.stop(t+dur+0.02);
+}
+function sndCorrect(){
+  tone(523.25,.10,"triangle",.18,0);
+  tone(659.25,.10,"triangle",.18,.07);
+  tone(783.99,.12,"triangle",.20,.14);
+  tone(1046.50,.22,"triangle",.22,.21);
+  tone(1318.51,.30,"sine",.10,.21);
+  noise(.06,.05,.0,4000);
+}
+function sndWrong(){
+  tone(330,.18,"sawtooth",.14,0);
+  tone(311,.20,"sawtooth",.14,.05);
+  tone(110,.25,"sine",.18,0);
+  noise(.12,.08,.0,800);
+}
+function sndCombo(level){
+  const seq = [523,659,784,1046,1318,1568,1864,2093];
+  const n = Math.min(Math.max(3,level), seq.length);
+  for(let i=0;i<n;i++) tone(seq[i], .09, "square", .08, i*0.04);
+  noise(.18,.06,0,2000);
+}
+function sndTick(urgency){
+  const f = 1000 + urgency*350;
+  tone(f, .035, "square", .07 + urgency*0.02, 0);
+}
+function sndCountdown(n){
+  const freqs = {3:440, 2:523, 1:659};
+  tone(freqs[n] || 440, .25, "triangle", .22, 0);
+  tone((freqs[n] || 440)/2, .25, "sine", .18, 0);
+  noise(.08, .06, 0, 1000);
+}
+function sndTimeout(){
+  tone(880,.18,"square",.16,0);
+  tone(660,.18,"square",.16,.18);
+  tone(880,.22,"square",.16,.36);
+  noise(.4,.08,0,500);
+}
+function sndHeart(){
+  tone(659.25,.12,"sine",.14,0);
+  tone(987.77,.14,"sine",.14,.06);
+  tone(1318.51,.25,"sine",.16,.12);
+  noise(.05,.04,0,5000);
+}
+function sndClear(){
+  const notes = [523,659,784,1046,1318,1046,1318,1568,2093];
+  notes.forEach((f,i)=>{
+    tone(f, .15, "triangle", .14, i*0.09);
+    if(i>=4) tone(f/2, .15, "sine", .08, i*0.09);
+  });
+  noise(.3,.08,0,3000);
+}
+function sndOver(){
+  [600,500,400,300,220,150].forEach((f,i)=>tone(f, .28, "sawtooth", .14, i*0.16));
+  noise(.5,.06,.0,300);
+}
+function sndStart(){
+  const c = audio(); if(!c || !soundOn) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = "sawtooth";
+  const t = c.currentTime;
+  o.frequency.setValueAtTime(200, t);
+  o.frequency.exponentialRampToValueAtTime(1200, t+.6);
+  g.gain.setValueAtTime(.001, t);
+  g.gain.exponentialRampToValueAtTime(.12, t+.1);
+  g.gain.exponentialRampToValueAtTime(.001, t+.6);
+  o.connect(g); g.connect(masterGain);
+  o.start(t); o.stop(t+.65);
+  noise(.6,.1,0,400);
+}
+function bgmThump(strong){
+  const c = audio(); if(!c || !soundOn || !bgmGain) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = "sine";
+  const t = c.currentTime;
+  o.frequency.setValueAtTime(strong?90:70, t);
+  o.frequency.exponentialRampToValueAtTime(strong?38:32, t+0.16);
+  const peak = strong ? 0.32 : 0.20;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+0.18);
+  o.connect(g); g.connect(bgmGain);
+  o.start(t); o.stop(t+0.2);
+}
+function bgmStep(){
+  let interval = 900;
+  if(G && G.timeLeft != null){
+    if(G.timeLeft <= 3) interval = 240;
+    else if(G.timeLeft <= 5) interval = 380;
+    else if(G.timeLeft <= 8) interval = 560;
+    else if(G.timeLeft <= 12) interval = 740;
+  }
+  bgmThump(true);
+  setTimeout(()=>bgmThump(false), Math.max(120, interval*0.35));
+  bgmTimer = setTimeout(bgmStep, interval);
+}
+function startBgm(){ audio(); if(bgmTimer) return; bgmStep(); }
+function stopBgm(){ if(bgmTimer){ clearTimeout(bgmTimer); bgmTimer = null; } }
+function toggleSound(){
+  soundOn = !soundOn;
+  const btn = document.getElementById("sndToggle");
+  if(btn){ btn.textContent = soundOn ? "🔊" : "🔇"; btn.classList.toggle("off", !soundOn); }
+  if(!soundOn) stopBgm();
+  else if(G) startBgm();
+}
+
+/* ============================================================
+   HUD
+   ============================================================ */
+function renderHUD(){
+  if(!G){
+    $("#hudHearts").classList.add("hidden");
+    $("#hudCombo").classList.add("hidden");
+    $("#hudScore").textContent = "⭐ " + (S ? S.totalScore : 0);
+    return;
+  }
+  $("#hudHearts").classList.remove("hidden");
+  $("#hudCombo").classList.remove("hidden");
+  const lost = MAX_HEARTS - G.hearts;
+  let h = "";
+  for(let i=0;i<G.hearts;i++) h+="❤️";
+  for(let i=0;i<lost;i++) h+="<span class='lost'>🤍</span>";
+  $("#hudHearts").innerHTML = h;
+  $("#hudScore").textContent = "⭐ " + (S.totalScore + G.score);
+  $("#hudCombo").textContent = "🔥 " + G.combo;
+}
+
+/* ============================================================
+   LESSON PICK SCREEN
+   ============================================================ */
+function renderLessonPick(){
+  clearLesson();
+  G = null;
+  stopTimer(); stopBgm();
+  renderHUD();
+  const grid = $("#lessonGrid"); grid.innerHTML = "";
+  for(const L of ["L1","L2","L3","L4"]){
+    const meta = LESSON_META[L];
+    const ls = R.lessons[L];
+    const planets = makePlanetsFor(L);
+    const stars = ls.planetStars.reduce((a,b)=>a+b,0);
+    const maxStars = planets.length * 3;
+    const cleared = ls.planetCleared.filter(Boolean).length;
+    const total = LESSON_VOCAB[L].length;
+    const isCleared = cleared === planets.length;
+    const bg = planets[0].emoji;
+    const card = document.createElement("div");
+    card.className = "lesson-card" + (isCleared?" cleared":"");
+    card.innerHTML = `
+      <div class="lc-bg">${bg}</div>
+      <div class="lc-head">
+        <div>
+          <div class="lc-num">LESSON ${L.slice(1)}</div>
+          <div class="lc-title">${escapeHTML(meta.title)}</div>
+          <div class="lc-sub">${escapeHTML(meta.subtitle)} · ${total}단어</div>
+        </div>
+      </div>
+      <div class="lc-meta">
+        <span class="stars">⭐ ${stars}/${maxStars}</span>
+        <span>🪐 ${cleared}/${planets.length} 행성</span>
+        <span>🏅 ${ls.badges.length} 배지</span>
+        <span>⭐ ${ls.totalScore}점</span>
+      </div>
+      <div class="lc-bar"><i style="width:${Math.round(stars/maxStars*100)}%"></i></div>
+      <div class="lc-cta">${isCleared ? "🏆 이미 정복! 다시 도전?" : (stars>0 ? "▶ 이어서 도전" : "▶ 시작하기")}</div>
+    `;
+    card.addEventListener("click", ()=> selectLesson(L));
+    grid.appendChild(card);
+  }
+  show("#screen-pick");
+}
+
+function selectLesson(L){
+  setLesson(L);
+  renderHome();
+  show("#screen-home");
+}
+
+/* ============================================================
+   HOME (planets map for selected lesson)
+   ============================================================ */
+function renderHome(){
+  const meta = LESSON_META[curLesson];
+  $("#homeTitle").textContent = `${meta.title} — ${meta.subtitle}`;
+  $("#homeSub").textContent = `단어 1~${LESSON_VOCAB[curLesson].length} · 행성을 순서대로 클리어!`;
+
+  const map = $("#planetsMap"); map.innerHTML = "";
+  // adjust grid cols based on planet count
+  map.style.gridTemplateColumns = `repeat(${PLANETS.length},1fr)`;
+  PLANETS.forEach((p,i)=>{
+    const locked = i>0 && !S.planetCleared[i-1] && S.planetStars[i]===0;
+    const cell = document.createElement("div");
+    cell.className = "planet-cell" + (locked?" locked":"") + (S.planetCleared[i]?" cleared":"");
+    const starsTxt = S.planetStars[i] ? "⭐".repeat(S.planetStars[i]) + "☆".repeat(3-S.planetStars[i]) : "···";
+    cell.innerHTML = `
+      <span class="emoji">${p.emoji}</span>
+      <div class="name">${escapeHTML(p.name)}</div>
+      <div class="range">${p.range[0]}~${p.range[1]}</div>
+      <div class="stars">${starsTxt}</div>
+    `;
+    if(!locked) cell.addEventListener("click",()=> startGame(i));
+    map.appendChild(cell);
+  });
+
+  const strip = $("#badgesStrip"); strip.innerHTML = "";
+  BADGES.forEach(b=>{
+    const earned = S.badges.includes(b.id);
+    const el = document.createElement("span");
+    el.className = "badge" + (earned?" earned":"");
+    el.innerHTML = `${b.emoji} ${escapeHTML(b.name)}`;
+    el.title = b.name;
+    strip.appendChild(el);
+  });
+  renderHUD();
+}
+
+/* ============================================================
+   GAME
+   ============================================================ */
+function startGame(planetIdx){
+  const planet = PLANETS[planetIdx];
+  const [lo,hi] = planet.range;
+  const vocab = LESSON_VOCAB[curLesson];
+  const words = vocab.filter(v=> v.n>=lo && v.n<=hi);
+  const shuffled = shuffle(words);
+  const questions = shuffled.map((w,i)=> makeQuestion(w, i%3, words));
+
+  G = {
+    planetIdx, planet, questions,
+    idx:0, hearts: MAX_HEARTS,
+    combo:0, maxCombo:0,
+    correct:0, wrong:0, score:0,
+    qStart:0, timeLeft: TIME_PER_Q, _lastTick:null,
+    wrongList:[], fastThisGame:0, reviewMode:false,
+  };
+  show("#screen-game");
+  renderPlanetBanner();
+  sndStart(); startBgm();
+  nextQuestion();
+}
+
+function makeQuestion(word, type, pool){
+  let q,hint,choices,answer;
+  if(type===0){
+    q = capitalize(word.def);
+    hint = "이 영영풀이가 가리키는 영어 단어는?";
+    const others = pool.filter(p=>p.w!==word.w);
+    choices = shuffle([word, ...shuffle(others).slice(0,3)]);
+    answer = word.w;
+    return {type, word, q, hint, choices: choices.map(c=>c.w), answer, qLabel:"영영풀이 → 영단어"};
+  }
+  if(type===1){
+    q = capitalize(word.def);
+    hint = "이 영영풀이의 한국어 뜻은?";
+    const others = pool.filter(p=>p.w!==word.w);
+    choices = shuffle([word, ...shuffle(others).slice(0,3)]);
+    return {type, word, q, hint, choices: choices.map(c=>c.ko), answer: word.ko, qLabel:"영영풀이 → 한국어 뜻"};
+  }
+  q = word.ko;
+  hint = "이 한국어 뜻에 해당하는 영어 단어는?";
+  const others = pool.filter(p=>p.w!==word.w);
+  choices = shuffle([word, ...shuffle(others).slice(0,3)]);
+  return {type, word, q, hint, choices: choices.map(c=>c.w), answer: word.w, qLabel:"한국어 뜻 → 영단어"};
+}
+
+function renderPlanetBanner(){
+  $("#gpEmoji").textContent = G.planet.emoji;
+  $("#gpName").textContent  = `${LESSON_META[curLesson].title} · ${G.planet.name}` + (G.reviewMode?" · 복습":"");
+  $("#gpDesc").textContent  = G.reviewMode ? "틀린 단어만 다시 풀어볼게! 천천히 골라봐" : G.planet.desc;
+}
+
+function nextQuestion(){
+  if(G.idx >= G.questions.length){ finishPlanet(); return; }
+  const q = G.questions[G.idx];
+  $("#qType").textContent = q.qLabel;
+  $("#qText").innerHTML = escapeHTML(q.q) + (q.type===2 && q.word.pos ? `<span class="pos-tag">${escapeHTML(q.word.pos)}</span>` : "");
+  $("#qHint").textContent = q.hint;
+
+  const opts = $("#opts"); opts.innerHTML = "";
+  const keys = ["A","B","C","D"];
+  q.choices.forEach((c,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerHTML = `<span class="opt-key">${keys[i]}</span><span>${escapeHTML(c)}</span>`;
+    btn.addEventListener("click", ()=>answer(c, btn));
+    opts.appendChild(btn);
+  });
+  const fb = $("#feedback"); fb.classList.add("hidden"); fb.classList.remove("ok","bad"); fb.innerHTML="";
+
+  const pct = Math.round((G.idx/G.questions.length)*100);
+  $("#progFill").style.width = pct+"%";
+  $("#progRocket").style.left = "calc(" + pct + "% - 12px)";
+  $("#progText").textContent = `${G.idx}/${G.questions.length}`;
+
+  G.qStart = performance.now();
+  renderHUD();
+  startTimer();
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+let timerInterval = null;
+function startTimer(){
+  stopTimer();
+  G.timeLeft = TIME_PER_Q;
+  G._lastTick = null;
+  updateTimerUI();
+  const tickMs = 100;
+  timerInterval = setInterval(()=>{
+    if(!G){ stopTimer(); return; }
+    G.timeLeft -= tickMs/1000;
+    if(G.timeLeft <= 0){
+      G.timeLeft = 0; updateTimerUI(); stopTimer(); timeoutFail(); return;
+    }
+    const intNow = Math.ceil(G.timeLeft);
+    if(G._lastTick !== intNow){
+      G._lastTick = intNow;
+      if(intNow <= 5 && intNow >= 1){
+        sndTick(Math.max(0, 5 - intNow));
+        if(intNow <= 3){ showCountdown(intNow); sndCountdown(intNow); }
+      }
+    }
+    updateTimerUI();
+  }, tickMs);
+}
+function stopTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  document.body.classList.remove("urgent");
+}
+function updateTimerUI(){
+  if(!G) return;
+  const pct = Math.max(0, (G.timeLeft / TIME_PER_Q) * 100);
+  const bar = $("#timerBar"), num = $("#timerNum");
+  if(bar){
+    bar.style.width = pct + "%";
+    bar.classList.remove("warn","danger");
+    if(G.timeLeft <= 5) bar.classList.add("danger");
+    else if(G.timeLeft <= 8) bar.classList.add("warn");
+  }
+  if(num){
+    num.textContent = Math.ceil(G.timeLeft) + "s";
+    num.classList.remove("warn","danger");
+    if(G.timeLeft <= 5) num.classList.add("danger");
+    else if(G.timeLeft <= 8) num.classList.add("warn");
+  }
+  document.body.classList.toggle("urgent", G.timeLeft <= 5);
+}
+function showCountdown(n){
+  const el = $("#countdownBig"); if(!el) return;
+  el.textContent = n; el.classList.remove("show");
+  void el.offsetWidth; el.classList.add("show");
+}
+function showBonus(text){
+  const el = $("#bonusPop"); if(!el) return;
+  el.textContent = text; el.classList.remove("show");
+  void el.offsetWidth; el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 700);
+}
+function timeoutFail(){
+  if(!G) return;
+  const q = G.questions[G.idx];
+  $$("#opts .option").forEach(b=>{
+    b.classList.add("disabled"); b.style.pointerEvents="none";
+    const txt = b.querySelector("span:last-child").textContent;
+    if(txt===q.answer) b.classList.add("correct");
+  });
+  G.wrong++; G.combo = 0; G.hearts--;
+  G.wrongList.push(q.word.n);
+  sndTimeout();
+  const fb = $("#feedback");
+  fb.classList.remove("hidden"); fb.classList.add("bad");
+  fb.innerHTML = `
+    <div class="msg">⏰ 시간 초과! 다음엔 더 빨리 골라보자 🚀</div>
+    <div>정답: <span style="color:var(--ok);font-weight:800">${escapeHTML(q.word.w)}</span>${q.word.pos?`<span class="pos-tag">${escapeHTML(q.word.pos)}</span>`:""} — <span class="ko">${escapeHTML(q.word.ko)}</span></div>
+    <div class="def">${escapeHTML(capitalize(q.word.def))}</div>
+    <div class="next-row"><button class="btn small warn" id="btnNextQ">다음 ▶</button></div>
+  `;
+  document.querySelector(".game-card").classList.add("shake");
+  setTimeout(()=>document.querySelector(".game-card").classList.remove("shake"),500);
+  renderHUD();
+  if(G.hearts<=0){ setTimeout(gameOver, 900); return; }
+  $("#btnNextQ").addEventListener("click", ()=>{ G.idx++; nextQuestion(); });
+}
+
+function answer(picked, btnEl){
+  if(!G) return;
+  stopTimer();
+  const q = G.questions[G.idx];
+  const isRight = (picked === q.answer);
+  const secLeft = Math.max(0, G.timeLeft);
+
+  $$("#opts .option").forEach(b=>{
+    b.classList.add("disabled"); b.style.pointerEvents="none";
+    const txt = b.querySelector("span:last-child").textContent;
+    if(txt===q.answer) b.classList.add("correct");
+    if(b===btnEl && !isRight) b.classList.add("wrong");
+  });
+
+  const fb = $("#feedback");
+  fb.classList.remove("hidden");
+  if(isRight){
+    G.correct++;
+    G.combo++;
+    if(G.combo > G.maxCombo) G.maxCombo = G.combo;
+    let base = 100;
+    if(G.combo>=10) base = 500;
+    else if(G.combo>=5) base = 300;
+    else if(G.combo>=3) base = 200;
+    const timeBonus = Math.round(secLeft * TIME_BONUS_PER_SEC);
+    if(secLeft >= TIME_PER_Q - 6) G.fastThisGame++;
+    const gained = base + timeBonus;
+    G.score += gained;
+
+    if(G.combo>0 && G.combo%5===0 && G.hearts < MAX_HEARTS){
+      G.hearts++; showHeartPop(); sndHeart();
+    }
+
+    fb.classList.add("ok");
+    fb.innerHTML = `
+      <div class="msg">✅ ${escapeHTML(rand(ENCOURAGE_RIGHT))}  <span style="color:var(--gold)">+${gained}점</span> ${timeBonus>0?`<span style="color:var(--neon-3)">(⚡${timeBonus} 시간보너스)</span>`:""} ${G.combo>=3?`<span style="color:#ffb15a">· 🔥 ${G.combo} 콤보!</span>`:""}</div>
+      <div><span style="color:var(--neon-2);font-weight:800">${escapeHTML(q.word.w)}</span>${q.word.pos?`<span class="pos-tag">${escapeHTML(q.word.pos)}</span>`:""} — <span class="ko">${escapeHTML(q.word.ko)}</span></div>
+      <div class="def">${escapeHTML(capitalize(q.word.def))}</div>
+      <div class="next-row"><button class="btn small" id="btnNextQ">다음 ▶</button></div>
+    `;
+    sndCorrect();
+    if(timeBonus >= 150) showBonus(`⚡ +${timeBonus}`);
+    if(G.combo>=3){ sndCombo(G.combo); showComboPop(G.combo); }
+  } else {
+    G.wrong++; G.combo = 0; G.hearts--;
+    G.wrongList.push(q.word.n);
+    fb.classList.add("bad");
+    fb.innerHTML = `
+      <div class="msg">❌ ${escapeHTML(rand(ENCOURAGE_WRONG))}</div>
+      <div>정답: <span style="color:var(--ok);font-weight:800">${escapeHTML(q.word.w)}</span>${q.word.pos?`<span class="pos-tag">${escapeHTML(q.word.pos)}</span>`:""} — <span class="ko">${escapeHTML(q.word.ko)}</span></div>
+      <div class="def">${escapeHTML(capitalize(q.word.def))}</div>
+      <div class="next-row"><button class="btn small warn" id="btnNextQ">다음 ▶</button></div>
+    `;
+    sndWrong();
+    document.querySelector(".game-card").classList.add("shake");
+    setTimeout(()=>document.querySelector(".game-card").classList.remove("shake"),500);
+  }
+  renderHUD();
+  if(G.hearts<=0){ setTimeout(gameOver, 900); return; }
+  $("#btnNextQ").addEventListener("click", ()=>{ G.idx++; nextQuestion(); });
+}
+
+function showComboPop(c){
+  const el = $("#comboPop");
+  el.textContent = `🔥 ${c} COMBO!`;
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 700);
+}
+function showHeartPop(){
+  const el = $("#heartPop");
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"), 800);
+}
+
+/* ============================================================
+   FINISH PLANET
+   ============================================================ */
+function finishPlanet(){
+  stopTimer(); stopBgm();
+  const stars = G.wrong===0 ? 3 : (G.wrong<=2 ? 2 : 1);
+  const isPerfect = G.wrong===0;
+
+  S.totalScore += G.score;
+  S.totalCorrect += G.correct;
+  S.totalWrong += G.wrong;
+  if(G.maxCombo > S.maxCombo) S.maxCombo = G.maxCombo;
+  S.fastAnswers += G.fastThisGame;
+  if(isPerfect && !G.reviewMode) S.perfectPlanets++;
+  if(stars > S.planetStars[G.planetIdx]) S.planetStars[G.planetIdx] = stars;
+  if(!S.planetCleared[G.planetIdx]){ S.planetCleared[G.planetIdx] = true; }
+
+  S.totalStars = S.planetStars.reduce((a,b)=>a+b,0);
+  S.clearedPlanets = S.planetCleared.filter(Boolean).length;
+
+  const newBadges = [];
+  BADGES.forEach(b=>{
+    if(!S.badges.includes(b.id) && b.cond(S)){
+      S.badges.push(b.id); newBadges.push(b);
+    }
+  });
+
+  saveRoot();
+  sndClear(); spawnConfetti();
+
+  $("#cmpEmoji").textContent = G.planet.emoji;
+  $("#cmpTitle").textContent = `${G.planet.name} 정복!`;
+  $("#cmpStars").textContent = "⭐".repeat(stars) + "☆".repeat(3-stars);
+  let msg = "";
+  if(isPerfect) msg = "퍼펙트! 단어를 완벽하게 알고 있어 🌟";
+  else if(G.wrong<=2) msg = "잘했어! 거의 다 맞혔어 👏";
+  else msg = "끝까지 해냈어! 틀린 단어는 아래서 다시 확인해보자 💪";
+  if(newBadges.length){
+    msg += "<br><br>🎉 새 배지 획득: " + newBadges.map(b=>`<b style="color:var(--gold)">${b.emoji} ${escapeHTML(b.name)}</b>`).join(", ");
+  }
+  $("#cmpMsg").innerHTML = msg;
+
+  $("#cmpCorrect").textContent = G.correct;
+  $("#cmpWrong").textContent = G.wrong;
+  $("#cmpCombo").textContent = G.maxCombo;
+  $("#cmpScore").textContent = G.score;
+
+  const rs = $("#reviewSection");
+  if(G.wrongList.length){
+    const vocab = LESSON_VOCAB[curLesson];
+    const cards = [...new Set(G.wrongList)].map(n=>{
+      const v = vocab.find(x=>x.n===n);
+      return `<div class="review-card">
+        <span class="w">${escapeHTML(v.w)}</span>${v.pos?`<span class="pos">[${escapeHTML(v.pos)}]</span>`:""}
+        <span class="ko"> · ${escapeHTML(v.ko)}</span>
+        <div class="def">${escapeHTML(capitalize(v.def))}</div>
+      </div>`;
+    }).join("");
+    rs.innerHTML = `
+      <h3 style="margin:18px 0 8px;text-align:left;color:var(--neon-2)">📚 복습 단어 (${G.wrongList.length}개)</h3>
+      ${cards}
+      <div class="sub-actions" style="margin-top:10px">
+        <button class="btn small" id="btnReviewQuiz">🎯 틀린 단어만 다시 풀기</button>
+      </div>
+    `;
+    setTimeout(()=>{
+      const b = $("#btnReviewQuiz"); if(b) b.addEventListener("click", startReview);
+    },0);
+  } else {
+    rs.innerHTML = `<div class="review-card" style="text-align:center;color:var(--ok)">🌟 틀린 단어 없음! 완벽!</div>`;
+  }
+
+  const isLast = G.planetIdx >= PLANETS.length-1;
+  $("#btnNext").textContent = isLast ? "🏆 결과 보기" : "🚀 다음 행성";
+  $("#btnNext").onclick = ()=>{
+    if(isLast){
+      $("#acTitle").textContent = `${LESSON_META[curLesson].title} 정복!`;
+      $("#acSub").textContent = `${LESSON_VOCAB[curLesson].length}개 단어를 모두 정복했어! 진정한 Word Master! 🎉`;
+      $("#acScore").textContent = S.totalScore;
+      $("#acStars").textContent = S.totalStars+"/"+(PLANETS.length*3);
+      $("#acBadges").textContent = S.badges.length;
+      $("#acCombo").textContent = S.maxCombo;
+      show("#screen-allclear"); sndClear(); spawnConfetti();
+    } else { startGame(G.planetIdx+1); }
+  };
+  $("#btnRetry").onclick = ()=> startGame(G.planetIdx);
+  $("#btnHome2").onclick = ()=>{ renderHome(); show("#screen-home"); };
+
+  show("#screen-complete");
+}
+
+function startReview(){
+  const ids = [...new Set(G.wrongList)];
+  const vocab = LESSON_VOCAB[curLesson];
+  const words = ids.map(n=>vocab.find(v=>v.n===n));
+  const pool = vocab.filter(v=> v.n>=G.planet.range[0] && v.n<=G.planet.range[1]);
+  const questions = words.map((w,i)=> makeQuestion(w, i%3, pool));
+  G = {
+    planetIdx: G.planetIdx, planet: G.planet, questions,
+    idx:0, hearts: MAX_HEARTS,
+    combo:0, maxCombo:0,
+    correct:0, wrong:0, score:0,
+    qStart:0, timeLeft: TIME_PER_Q, _lastTick:null,
+    wrongList:[], fastThisGame:0, reviewMode:true,
+  };
+  show("#screen-game");
+  renderPlanetBanner();
+  sndStart(); startBgm();
+  nextQuestion();
+}
+
+/* ============================================================
+   GAME OVER
+   ============================================================ */
+function gameOver(){
+  stopTimer(); stopBgm();
+  S.totalScore += G.score;
+  S.totalCorrect += G.correct;
+  S.totalWrong += G.wrong;
+  if(G.maxCombo > S.maxCombo) S.maxCombo = G.maxCombo;
+  S.fastAnswers += G.fastThisGame;
+  saveRoot();
+  sndOver();
+
+  $("#overCorrect").textContent = G.correct;
+  $("#overWrong").textContent = G.wrong;
+  $("#overCombo").textContent = G.maxCombo;
+  $("#overScore").textContent = G.score;
+  $("#overMsg").innerHTML = `${G.planet.emoji} <b>${escapeHTML(G.planet.name)}</b>에서 길을 잃었어!<br>괜찮아 — 우주는 넓고 우리에겐 시간이 많아 🌌`;
+
+  $("#btnOverRetry").onclick = ()=> startGame(G.planetIdx);
+  $("#btnOverHome").onclick = ()=>{ renderHome(); show("#screen-home"); };
+
+  show("#screen-over");
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+function spawnConfetti(){
+  const wrap = document.createElement("div");
+  wrap.className = "confetti";
+  document.body.appendChild(wrap);
+  const colors = ["#7df9ff","#ff7df9","#ffd84a","#a8ff7d","#ff9c3f","#7dff9a"];
+  for(let i=0;i<60;i++){
+    const c = document.createElement("div");
+    c.className = "conf";
+    c.style.left = (Math.random()*100)+"%";
+    c.style.background = colors[i%colors.length];
+    c.style.animationDuration = (1.6 + Math.random()*1.8) + "s";
+    c.style.animationDelay = (Math.random()*0.4) + "s";
+    c.style.transform = `rotate(${Math.random()*360}deg)`;
+    wrap.appendChild(c);
+  }
+  setTimeout(()=>wrap.remove(), 4000);
+}
+
+/* ============================================================
+   BIND
+   ============================================================ */
+$("#brandHome").addEventListener("click", ()=>{
+  if(G){ if(!confirm("Lesson 선택으로 돌아갈까요? 현재 게임은 사라져요")) return; G=null; }
+  renderLessonPick();
+});
+$("#btnBack").addEventListener("click", renderLessonPick);
+$("#btnStart").addEventListener("click", ()=>{
+  let idx = S.planetCleared.findIndex(c=>!c);
+  if(idx<0) idx = 0;
+  startGame(idx);
+});
+$("#btnReset").addEventListener("click", ()=>{
+  if(confirm(`${LESSON_META[curLesson].title} 진행을 초기화할까요? (별, 배지, 점수 모두 사라져요)`)){
+    R.lessons[curLesson] = defaultLessonState(curLesson);
+    setLesson(curLesson);
+    saveRoot();
+    renderHome();
+  }
+});
+$("#btnHome").addEventListener("click", ()=>{
+  if(confirm("행성 지도로 돌아갈까? 현재 진행은 사라져요")){
+    stopTimer(); stopBgm(); G=null;
+    renderHome(); show("#screen-home");
+  }
+});
+$("#btnSkip").addEventListener("click", ()=>{
+  if(!G) return;
+  stopTimer();
+  G.combo = 0; G.wrong++; G.hearts--;
+  G.wrongList.push(G.questions[G.idx].word.n);
+  sndWrong();
+  renderHUD();
+  if(G.hearts<=0){ setTimeout(gameOver, 600); return; }
+  G.idx++;
+  nextQuestion();
+});
+$("#btnAcNext").addEventListener("click", renderLessonPick);
+$("#btnAcHome").addEventListener("click", ()=>{ renderHome(); show("#screen-home"); });
+$("#sndToggle").addEventListener("click", toggleSound);
+
+renderLessonPick();
+</script>
+</body>
+</html>
