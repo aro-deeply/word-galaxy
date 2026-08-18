@@ -385,7 +385,7 @@
 
 <script>
 /* ============================================================
-   DATA — All 7 lessons embedded
+   DATA — All 8 lessons embedded
    ============================================================ */
 const LESSON_VOCAB = {
   L1: [
@@ -742,6 +742,58 @@ const LESSON_VOCAB = {
     {n:43, w:"expensive", pos:"형", def:"costing a lot of money", def_ko:"돈이 많이 드는", ko:"비싼"},
     {n:44, w:"wise", pos:"형", def:"able to make good decisions because of the knowledge and experience you have", def_ko:"가진 지식과 경험 덕분에 좋은 결정을 내릴 수 있는", ko:"현명한, 지혜로운"},
   ],
+  L8: [
+    {n: 1, w:"technology", pos:"명", def:"the use of scientific knowledge to make life easier", def_ko:"삶을 더 편하게 만들기 위한 과학 지식의 사용", ko:"(과학) 기술"},
+    {n: 2, w:"machine", pos:"명", def:"a piece of equipment with many parts that uses energy to do work", def_ko:"일을 하기 위해 에너지를 쓰는, 많은 부품으로 된 장비", ko:"기계"},
+    {n: 3, w:"comfort", pos:"동", def:"to make someone feel better", def_ko:"누군가의 기분이 나아지게 하다", ko:"위로 [위안] 하다"},
+    {n: 4, w:"self-driving", pos:"형", def:"having the ability to drive itself without a person in control", def_ko:"사람이 조종하지 않아도 스스로 운전할 수 있는", ko:"자율 주행의"},
+    {n: 5, w:"by oneself", pos:"", def:"alone or without help", def_ko:"혼자서 또는 도움 없이", ko:"혼자서, 혼자 힘으로"},
+    {n: 6, w:"farmer", pos:"명", def:"someone who grows crops or raises livestock", def_ko:"농작물을 기르거나 가축을 키우는 사람", ko:"농부"},
+    {n: 7, w:"plant", pos:"동", def:"to put seeds, plants, etc. into the ground to grow", def_ko:"씨앗, 식물 등을 자라도록 땅에 넣다", ko:"심다"},
+    {n: 8, w:"seed", pos:"명", def:"a small hard object from a plant that can grow into a new plant", def_ko:"새 식물로 자랄 수 있는, 식물에서 나온 작고 단단한 것", ko:"씨, 씨앗"},
+    {n: 9, w:"pet", pos:"명", def:"an animal that is kept by people for pleasure", def_ko:"사람들이 즐거움을 위해 기르는 동물", ko:"반려동물"},
+    {n:10, w:"care for", pos:"", def:"to look after someone or something", def_ko:"누군가나 무언가를 돌보다", ko:"~을 돌보다"},
+    {n:11, w:"area", pos:"명", def:"a particular part or section of a larger place", def_ko:"더 큰 장소의 특정한 부분이나 구역", ko:"지역"},
+    {n:12, w:"product", pos:"명", def:"something that is made or grown to be sold", def_ko:"팔기 위해 만들거나 기른 것", ko:"상품, 제품"},
+    {n:13, w:"smart", pos:"형", def:"controlled by a computer and able to work independently", def_ko:"컴퓨터로 제어되고 스스로 작동할 수 있는", ko:"컴퓨터로 조정되는"},
+    {n:14, w:"sunlight", pos:"명", def:"the light that comes from the sun", def_ko:"태양에서 오는 빛", ko:"햇빛"},
+    {n:15, w:"guest", pos:"명", def:"someone who has been invited to a place", def_ko:"어떤 장소에 초대받은 사람", ko:"손님"},
+    {n:16, w:"direction", pos:"명", def:"the position that someone or something is pointing or moving toward(-s)", def_ko:"누군가나 무언가가 가리키거나 움직여 가는 방향", ko:"길 안내"},
+    {n:17, w:"recognize", pos:"동", def:"to know somebody or something because of previous knowledge or experience", def_ko:"이전의 지식이나 경험으로 누군가나 무언가를 알아보다", ko:"알아보다, 인식하다"},
+    {n:18, w:"windy", pos:"형", def:"with a lot of wind blowing", def_ko:"바람이 많이 부는", ko:"바람이 많이 부는"},
+    {n:19, w:"handle", pos:"명", def:"the part of an object that you use to carry or hold it", def_ko:"물건을 들거나 잡을 때 쓰는 부분", ko:"손잡이"},
+    {n:20, w:"come up with", pos:"", def:"to think of something", def_ko:"어떤 것을 생각해 내다", ko:"~을 생각해내다"},
+    {n:21, w:"correct", pos:"형", def:"true and accurate, without mistakes", def_ko:"실수 없이 사실이고 정확한", ko:"맞는, 정확한"},
+    {n:22, w:"decision", pos:"명", def:"a judgement made after thinking about something", def_ko:"어떤 것에 대해 생각한 후에 내리는 판단", ko:"결정"},
+    {n:23, w:"right", pos:"형", def:"morally good", def_ko:"도덕적으로 좋은", ko:"옳은"},
+    {n:24, w:"fair", pos:"형", def:"appropriate and agreeable", def_ko:"적절하고 받아들일 만한", ko:"타당한"},
+    {n:25, w:"artificial", pos:"형", def:"made by people, not natural", def_ko:"자연적이지 않고 사람이 만든", ko:"인공의"},
+    {n:26, w:"hit", pos:"동", def:"to move your hand, a bat, etc. against someone or something with force", def_ko:"손, 방망이 등을 힘껏 누군가나 무언가에 부딪치다", ko:"치다"},
+    {n:27, w:"accuracy", pos:"명", def:"how correct something is", def_ko:"어떤 것이 얼마나 정확한지의 정도", ko:"정확성, 정확도"},
+    {n:28, w:"unlock", pos:"동", def:"to open something that is locked", def_ko:"잠겨 있는 것을 열다", ko:"열다, 잠금을 해제하다"},
+    {n:29, w:"screen", pos:"명", def:"a flat surface that displays images, like on a phone or TV", def_ko:"전화기나 TV처럼 이미지를 보여 주는 평평한 면", ko:"화면"},
+    {n:30, w:"privacy", pos:"명", def:"the state of being alone and not watched by others", def_ko:"혼자 있으며 다른 사람에게 관찰되지 않는 상태", ko:"사생활"},
+    {n:31, w:"chat", pos:"명", def:"an informal talk", def_ko:"격식 없는 대화", ko:"대화"},
+    {n:32, w:"stand for", pos:"", def:"to represent something", def_ko:"어떤 것을 나타내다", ko:"~을 나타내다 [의미하다]"},
+    {n:33, w:"intelligence", pos:"명", def:"the ability to think, learn, and solve problems", def_ko:"생각하고 배우고 문제를 해결하는 능력", ko:"지능"},
+    {n:34, w:"explanation", pos:"명", def:"information or detail that makes something clear or easy to understand", def_ko:"어떤 것을 분명하거나 이해하기 쉽게 만드는 정보나 설명", ko:"설명"},
+    {n:35, w:"everyday", pos:"형", def:"happening or used regularly", def_ko:"정기적으로 일어나거나 사용되는", ko:"일상적인"},
+    {n:36, w:"even if", pos:"", def:"no matter whether", def_ko:"~인지 아닌지에 상관없이", ko:"(비록) ~일지라도"},
+    {n:37, w:"provide", pos:"동", def:"to give something that is needed", def_ko:"필요한 것을 주다", ko:"제공하다"},
+    {n:38, w:"originality", pos:"명", def:"the quality of being interesting or unique", def_ko:"흥미롭거나 독특한 성질", ko:"독창성"},
+    {n:39, w:"blindly", pos:"부", def:"without thinking carefully", def_ko:"주의 깊게 생각하지 않고", ko:"무턱대고, 맹목적으로"},
+    {n:40, w:"copy", pos:"동", def:"to make or do something that is exactly like something else", def_ko:"다른 것과 똑같은 것을 만들거나 하다", ko:"베끼다"},
+    {n:41, w:"wisely", pos:"부", def:"in a smart and thoughtful way", def_ko:"똑똑하고 사려 깊은 방식으로", ko:"현명하게"},
+    {n:42, w:"straight", pos:"부", def:"not curved or at an angle", def_ko:"굽거나 기울지 않게", ko:"똑바로"},
+    {n:43, w:"skate", pos:"동", def:"to move on ice with skates", def_ko:"스케이트를 신고 얼음 위에서 움직이다", ko:"스케이트를 타다"},
+    {n:44, w:"break", pos:"동", def:"to damage something and separate it into pieces", def_ko:"무언가를 손상시켜 조각으로 분리하다", ko:"깨다, 깨뜨리다"},
+    {n:45, w:"at once", pos:"", def:"at the same time", def_ko:"같은 시간에", ko:"한 번에, 동시에"},
+    {n:46, w:"transportation", pos:"명", def:"a system for moving people or goods from one place to another", def_ko:"사람이나 물건을 한 곳에서 다른 곳으로 옮기는 체계", ko:"교통수단"},
+    {n:47, w:"entertainment", pos:"명", def:"something that amuses or interests people", def_ko:"사람들을 즐겁게 하거나 흥미를 끄는 것", ko:"오락"},
+    {n:48, w:"tube", pos:"명", def:"a long, hollow object, like a pipe", def_ko:"파이프같이 길고 속이 빈 물건", ko:"(금속 · 유리 등의) 관, 통"},
+    {n:49, w:"recipe", pos:"명", def:"a set of instructions that tells you how to prepare a dish", def_ko:"요리를 준비하는 방법을 알려 주는 일련의 설명", ko:"요리법"},
+    {n:50, w:"password", pos:"명", def:"a secret code that you use to gain access to something", def_ko:"어떤 것에 접근하기 위해 사용하는 비밀 코드", ko:"비밀번호"},
+  ],
 };
 
 const LESSON_META = {
@@ -752,6 +804,7 @@ const LESSON_META = {
   L5: { title:"Lesson 5", subtitle:"We're All Special",      planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
   L6: { title:"Lesson 6", subtitle:"Let's Travel!",          planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
   L7: { title:"Lesson 7", subtitle:"Buy, Sell, Share",       planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L8: { title:"Lesson 8", subtitle:"Technology All Around Us", planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
 };
 
 const PLANET_PRESETS = [
@@ -807,7 +860,7 @@ const MAX_HEARTS = 7;
 const TIME_PER_Q = 15;
 const TIME_BONUS_PER_SEC = 25;
 
-let curLesson = null; // "L1".."L7"
+let curLesson = null; // "L1".."L8"
 
 function defaultLessonState(L){
   const planetCount = makePlanetsFor(L).length;
@@ -824,7 +877,7 @@ function defaultLessonState(L){
   };
 }
 function defaultRoot(){
-  return { lessons: Object.fromEntries(["L1","L2","L3","L4","L5","L6","L7"].map(L=>[L, defaultLessonState(L)])) };
+  return { lessons: Object.fromEntries(["L1","L2","L3","L4","L5","L6","L7","L8"].map(L=>[L, defaultLessonState(L)])) };
 }
 function loadRoot(){
   try{
@@ -833,7 +886,7 @@ function loadRoot(){
     const parsed = JSON.parse(raw);
     const root = defaultRoot();
     if(parsed.lessons){
-      for(const L of ["L1","L2","L3","L4","L5","L6","L7"]){
+      for(const L of ["L1","L2","L3","L4","L5","L6","L7","L8"]){
         if(parsed.lessons[L]) root.lessons[L] = Object.assign(defaultLessonState(L), parsed.lessons[L]);
       }
     }
@@ -1057,7 +1110,7 @@ function renderLessonPick(){
   stopTimer(); stopBgm();
   renderHUD();
   const grid = $("#lessonGrid"); grid.innerHTML = "";
-  for(const L of ["L1","L2","L3","L4","L5","L6","L7"]){
+  for(const L of ["L1","L2","L3","L4","L5","L6","L7","L8"]){
     const meta = LESSON_META[L];
     const ls = R.lessons[L];
     const planets = makePlanetsFor(L);

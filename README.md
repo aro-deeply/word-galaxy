@@ -1,7 +1,7 @@
 # 🚀 Word Galaxy — 중2 어휘 우주 탐험
 
 중학교 2학년 영어 교과서 어휘를 영영풀이 게임으로 학습하는 우주 테마 웹게임.
-첫 화면에서 **Lesson 1~7**을 골라서 진행할 수 있어요.
+첫 화면에서 **Lesson 1~8**을 골라서 진행할 수 있어요.
 
 ## 플레이
 👉 https://aro-deeply.github.io/word-galaxy/
