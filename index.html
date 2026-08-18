@@ -250,7 +250,7 @@
       <div class="sub">각 과 50단어 안팎 · 5개 행성 · 영영풀이 게임</div>
     </div>
     <div class="lesson-grid" id="lessonGrid"></div>
-    <footer>made for 효은쌤 💜 · 모든 단어 학습 · 목숨 7개 · 콤보로 ❤️ 회복 · 15초 타이머</footer>
+    <footer>모든 단어 학습 · 목숨 7개 · 콤보로 ❤️ 회복 · 15초 타이머</footer>
   </section>
 
   <!-- HOME (planets map) -->
@@ -385,7 +385,7 @@
 
 <script>
 /* ============================================================
-   DATA — All 4 lessons embedded
+   DATA — All 7 lessons embedded
    ============================================================ */
 const LESSON_VOCAB = {
   L1: [
@@ -592,13 +592,166 @@ const LESSON_VOCAB = {
     {n:49, w:"back", pos:"명", def:"the rear part of the body between the neck and bottom", def_ko:"목과 엉덩이 사이에 있는 몸의 뒷부분", ko:"허리"},
     {n:50, w:"backpack", pos:"명", def:"a bag that you carry on your back", def_ko:"등에 메고 다니는 가방", ko:"배낭"},
   ],
+  L5: [
+    {n: 1, w:"strength", pos:"명", def:"a quality or ability that gives you an advantage", def_ko:"너에게 유리함을 주는 자질이나 능력", ko:"장점, 강점"},
+    {n: 2, w:"goal", pos:"명", def:"something that you hope to achieve", def_ko:"네가 이루기를 바라는 것", ko:"목표"},
+    {n: 3, w:"guitarist", pos:"명", def:"a person who plays the guitar", def_ko:"기타를 연주하는 사람", ko:"기타 연주자"},
+    {n: 4, w:"after-school", pos:"형", def:"happening after normal school hours", def_ko:"정규 수업 시간 후에 일어나는", ko:"방과 후의"},
+    {n: 5, w:"hold", pos:"동", def:"to have something such as an event, meeting, etc", def_ko:"행사, 회의 등을 열다", ko:"열다, 개최하다"},
+    {n: 6, w:"essay", pos:"명", def:"a short piece of writing on a particular subject", def_ko:"특정 주제에 대해 쓴 짧은 글", ko:"수필, 에세이"},
+    {n: 7, w:"sign up", pos:"", def:"to agree to take part in an organized activity", def_ko:"조직된 활동에 참여하기로 동의하다", ko:"신청하다"},
+    {n: 8, w:"drama", pos:"명", def:"the activity or art of performing in a play, show, etc", def_ko:"연극, 쇼 등에서 연기하는 활동이나 예술", ko:"연극"},
+    {n: 9, w:"comment", pos:"명", def:"something that you say or write that expresses your opinion", def_ko:"너의 의견을 표현하는 말이나 글", ko:"의견, 댓글"},
+    {n:10, w:"move", pos:"명", def:"a change of position or place", def_ko:"위치나 장소의 변화", ko:"움직임, 동작"},
+    {n:11, w:"presentation", pos:"명", def:"a talk giving information about something", def_ko:"어떤 것에 대한 정보를 전달하는 발표", ko:"발표"},
+    {n:12, w:"edit", pos:"동", def:"to make changes to a text, film, etc", def_ko:"글, 영상 등을 수정하다", ko:"편집하다"},
+    {n:13, w:"in front of", pos:"", def:"in a position that is just ahead of someone or something", def_ko:"누군가나 어떤 것의 바로 앞의 위치에", ko:"~앞에서"},
+    {n:14, w:"thankful", pos:"형", def:"happy or grateful because of something", def_ko:"어떤 것 때문에 기쁘거나 감사하는", ko:"고맙게 생각하는, 감사하는"},
+    {n:15, w:"dot", pos:"명", def:"a small round mark", def_ko:"작고 둥근 표시", ko:"점"},
+    {n:16, w:"sign", pos:"동", def:"to write your name on something", def_ko:"어떤 것에 자신의 이름을 쓰다", ko:"서명하다"},
+    {n:17, w:"mix", pos:"동", def:"to put different things together to make something new", def_ko:"새로운 것을 만들기 위해 서로 다른 것들을 한데 합치다", ko:"섞다, 혼합하다"},
+    {n:18, w:"blank", pos:"형", def:"having no printing, writing, or images", def_ko:"인쇄, 글, 그림이 없는", ko:"공백의, 빈"},
+    {n:19, w:"discover", pos:"동", def:"to find out something that you did not know before", def_ko:"전에 몰랐던 것을 알아내다", ko:"발견하다, 알게 되다"},
+    {n:20, w:"printing", pos:"명", def:"the act of producing letters, images, etc. on paper or other materials", def_ko:"종이나 다른 재료에 글자, 그림 등을 만들어 내는 행위", ko:"인쇄"},
+    {n:21, w:"put together", pos:"", def:"to combine people or things, or organize something", def_ko:"사람이나 사물을 합치거나, 무언가를 조직하다", ko:"합하다"},
+    {n:22, w:"still", pos:"부", def:"continuing from the past into the present", def_ko:"과거부터 현재까지 계속되는", ko:"아직도, 여전히"},
+    {n:23, w:"lean", pos:"동", def:"to move or bend from a straight position in a particular direction", def_ko:"곧은 자세에서 특정 방향으로 움직이거나 굽히다", ko:"(몸을) 기울이다, 숙이다"},
+    {n:24, w:"snowstorm", pos:"명", def:"a windy storm with a lot of falling snow", def_ko:"많은 눈이 내리는, 바람이 강한 폭풍", ko:"눈보라"},
+    {n:25, w:"mark", pos:"명", def:"a stain, spot, line, etc. on the surface of something", def_ko:"물건 표면에 있는 얼룩, 점, 선 등", ko:"자국, 표시"},
+    {n:26, w:"push", pos:"동", def:"to use force to move someone or something forward or away", def_ko:"힘을 써서 누군가나 무언가를 앞으로 또는 멀리 움직이다", ko:"밀다"},
+    {n:27, w:"toward", pos:"전", def:"in the direction of someone or something", def_ko:"누군가나 어떤 것이 있는 방향으로", ko:"~쪽으로, ~을 향하여"},
+    {n:28, w:"frame", pos:"명", def:"a border that holds a picture, window, door, etc", def_ko:"그림, 창문, 문 등을 붙잡아 주는 테두리", ko:"액자"},
+    {n:29, w:"purple", pos:"형", def:"having the color of red and blue mixed together", def_ko:"빨강과 파랑을 섞은 색을 띠는", ko:"자주색의"},
+    {n:30, w:"experiment", pos:"동", def:"to try out new ideas, methods, or activities to see what effect they have", def_ko:"어떤 효과가 있는지 보려고 새로운 생각, 방법, 활동을 시도해 보다", ko:"실험하다"},
+    {n:31, w:"lots of", pos:"", def:"a large number or amount of people or things", def_ko:"많은 수나 양의 사람 또는 사물", ko:"많은"},
+    {n:32, w:"bet", pos:"동", def:"to think that something is almost certainly true or will happen", def_ko:"어떤 것이 거의 확실히 사실이거나 일어날 것이라고 생각하다", ko:"단언하다"},
+    {n:33, w:"hand", pos:"동", def:"to pass or give something to somebody", def_ko:"누군가에게 무언가를 건네거나 주다", ko:"건네주다"},
+    {n:34, w:"sheet", pos:"명", def:"a piece of paper for writing or printing on", def_ko:"글을 쓰거나 인쇄하기 위한 종이 한 장", ko:"(종이) 한 장"},
+    {n:35, w:"shake", pos:"동", def:"to move with short, quick movements from side to side or up and down", def_ko:"좌우나 위아래로 짧고 빠르게 움직이다", ko:"흔들리다"},
+    {n:36, w:"believe in", pos:"", def:"to trust somebody because you think they will do well", def_ko:"잘할 것이라고 생각해서 누군가를 믿다", ko:"~을 믿다"},
+    {n:37, w:"garden", pos:"명", def:"an area in a yard where you grow flowers or plants", def_ko:"꽃이나 식물을 기르는 마당의 한 공간", ko:"정원"},
+    {n:38, w:"quotation", pos:"명", def:"a group of words taken from a book, poem, play, etc", def_ko:"책, 시, 연극 등에서 가져온 구절", ko:"인용구, 인용문"},
+    {n:39, w:"compose", pos:"동", def:"to produce or create music, poems, or a piece of writing", def_ko:"음악, 시, 글을 만들어 내다", ko:"작곡하다"},
+    {n:40, w:"according to", pos:"", def:"in a way that agrees with", def_ko:"~와 일치하는 방식으로", ko:"~에 따르면"},
+    {n:41, w:"self-portrait", pos:"명", def:"a picture you make of yourself", def_ko:"자기 자신을 그린 그림", ko:"자화상"},
+    {n:42, w:"represent", pos:"동", def:"to show or describe somebody or something", def_ko:"누군가나 어떤 것을 보여 주거나 묘사하다", ko:"나타내다"},
+    {n:43, w:"parent", pos:"명", def:"a person’s father or mother(-s)", def_ko:"사람의 아버지 또는 어머니", ko:"부모, 어버이"},
+    {n:44, w:"fail", pos:"동", def:"to not succeed at something", def_ko:"어떤 일에 성공하지 못하다", ko:"실패하다"},
+    {n:45, w:"support", pos:"동", def:"to help or be ready to help someone if they need it", def_ko:"누군가 필요로 할 때 돕거나 도울 준비가 되어 있다", ko:"지지하다"},
+    {n:46, w:"event", pos:"명", def:"one of the races or competitions in a sports program", def_ko:"스포츠 프로그램의 경주나 시합 중 하나", ko:"종목, 경기"},
+    {n:47, w:"race", pos:"명", def:"a competition in which competitors try to be the fastest", def_ko:"참가자들이 가장 빨리 가려고 겨루는 시합", ko:"경주"},
+    {n:48, w:"worried", pos:"형", def:"concerned about a lot of problems or other bad things", def_ko:"많은 문제나 나쁜 일들이 걱정되는", ko:"걱정하는"},
+    {n:49, w:"glass", pos:"명", def:"a small container for drinks made of glass", def_ko:"유리로 만든, 음료를 담는 작은 용기", ko:"컵, 잔"},
+    {n:50, w:"interesting", pos:"형", def:"attracting your attention because it is unusual or exciting", def_ko:"특이하거나 신나서 너의 주의를 끄는", ko:"재미있는, 흥미로운"},
+  ],
+  L6: [
+    {n: 1, w:"historical", pos:"형", def:"relating to the past", def_ko:"과거와 관련된", ko:"역사적인"},
+    {n: 2, w:"wish", pos:"명", def:"a feeling that you want to do something or want something to happen", def_ko:"무언가를 하고 싶거나 어떤 일이 일어나기를 바라는 마음", ko:"바람, 소망"},
+    {n: 3, w:"statue", pos:"명", def:"an image of a person or animal that is made from a hard material", def_ko:"단단한 재료로 만든 사람이나 동물의 형상", ko:"조각상"},
+    {n: 4, w:"bright", pos:"형", def:"shining strongly, or producing a lot of light", def_ko:"강하게 빛나거나 많은 빛을 내는", ko:"밝은, 빛나는"},
+    {n: 5, w:"classical", pos:"형", def:"relating to classical music", def_ko:"클래식 음악과 관련된", ko:"(음악) 클래식의"},
+    {n: 6, w:"lantern", pos:"명", def:"a light inside a clear container that usually has a handle", def_ko:"보통 손잡이가 달린, 투명한 통 안에 있는 등", ko:"등불"},
+    {n: 7, w:"fly", pos:"동", def:"to cause something, like a kite, to fly in the air", def_ko:"연 같은 것을 공중에 날게 하다", ko:"(연 등을) 날리다"},
+    {n: 8, w:"happiness", pos:"명", def:"the state of feeling pleasure", def_ko:"기쁨을 느끼는 상태", ko:"행복"},
+    {n: 9, w:"carnival", pos:"명", def:"a public event that often involves music, colorful clothes, dancing, etc", def_ko:"음악, 화려한 옷, 춤 등이 함께하는 공공 행사", ko:"축제, 카니발"},
+    {n:10, w:"hiking", pos:"명", def:"the activity of taking long walks in the countryside", def_ko:"시골에서 오래 걷는 활동", ko:"도보 여행, 하이킹"},
+    {n:11, w:"snorkel", pos:"동", def:"to swim under water while breathing through a tube", def_ko:"관을 통해 숨을 쉬면서 물속에서 수영하다", ko:"스노클링을 하다"},
+    {n:12, w:"underwater", pos:"형", def:"located below the surface of the water", def_ko:"물 표면 아래에 있는", ko:"물속의, 수중의"},
+    {n:13, w:"necklace", pos:"명", def:"a piece of jewelry worn around one’s neck", def_ko:"목에 두르는 장신구", ko:"목걸이"},
+    {n:14, w:"coral", pos:"명", def:"a hard material formed from the bones of small sea creatures", def_ko:"작은 바다 생물들의 뼈로 만들어진 단단한 물질", ko:"산호"},
+    {n:15, w:"movement", pos:"명", def:"a change of place or position", def_ko:"장소나 위치의 변화", ko:"동작, 움직임"},
+    {n:16, w:"rainbow", pos:"명", def:"a curved shape of different colors that appears in the sky when the sun shines through rain", def_ko:"비 사이로 해가 비칠 때 하늘에 나타나는 여러 색의 곡선 모양", ko:"무지개"},
+    {n:17, w:"state", pos:"명", def:"a part of a large country such as the U.S., with its own laws and government", def_ko:"미국 같은 큰 나라의 한 부분으로, 자체의 법과 정부를 가진 곳", ko:"(미국 등의) 주(州)"},
+    {n:18, w:"flight", pos:"명", def:"a journey in a plane", def_ko:"비행기로 하는 여행", ko:"비행"},
+    {n:19, w:"arrive", pos:"동", def:"to reach the place you are going to", def_ko:"가려고 하는 곳에 다다르다", ko:"도착하다"},
+    {n:20, w:"international", pos:"형", def:"of or having to do with two or more countries", def_ko:"둘 이상의 나라에 관한, 또는 그와 관련된", ko:"국제적인"},
+    {n:21, w:"airport", pos:"명", def:"a place where planes land and take off", def_ko:"비행기가 착륙하고 이륙하는 장소", ko:"공항"},
+    {n:22, w:"cousin", pos:"명", def:"a child of your uncle or aunt", def_ko:"삼촌이나 이모(고모)의 자녀", ko:"사촌"},
+    {n:23, w:"hug", pos:"동", def:"to hold someone with your arms to show friendship or love", def_ko:"우정이나 사랑을 보여 주려고 팔로 누군가를 안다", ko:"껴안다"},
+    {n:24, w:"circle", pos:"명", def:"a completely round shape", def_ko:"완전히 둥근 모양", ko:"원형"},
+    {n:25, w:"mistake ~ for ...", pos:"", def:"to think wrongly that something is something else", def_ko:"어떤 것을 다른 것으로 잘못 생각하다", ko:"~을 … 로 오해하다"},
+    {n:26, w:"name", pos:"동", def:"to give a name to someone or something", def_ko:"누군가나 어떤 것에 이름을 지어 주다", ko:"이름을 짓다"},
+    {n:27, w:"view", pos:"명", def:"what you can see from a particular position or place", def_ko:"특정한 위치나 장소에서 볼 수 있는 것", ko:"경치, 전망"},
+    {n:28, w:"surprisingly", pos:"부", def:"in a way that is not expected", def_ko:"예상하지 못한 방식으로", ko:"놀랍게도"},
+    {n:29, w:"stand for", pos:"", def:"to represent or be a symbol of something", def_ko:"어떤 것을 나타내거나 그것의 상징이 되다", ko:"~을 상징하다"},
+    {n:30, w:"nature", pos:"명", def:"everything in the world that is not made by people", def_ko:"사람이 만들지 않은 세상의 모든 것", ko:"자연"},
+    {n:31, w:"raise", pos:"동", def:"to lift something up or make it higher", def_ko:"어떤 것을 들어 올리거나 더 높게 만들다", ko:"올리다"},
+    {n:32, w:"above", pos:"전", def:"at a higher place or position than something", def_ko:"어떤 것보다 더 높은 곳이나 위치에", ko:"~보다 위로"},
+    {n:33, w:"head", pos:"동", def:"to travel or go in a particular direction", def_ko:"특정한 방향으로 이동하거나 가다", ko:"(특정 방향으로) 가다, 향하다"},
+    {n:34, w:"bay", pos:"명", def:"a large area of the sea that is partly surrounded by land", def_ko:"육지로 일부 둘러싸인 바다의 넓은 구역", ko:"(지형) 만(灣)"},
+    {n:35, w:"educational", pos:"형", def:"relating to education", def_ko:"교육과 관련된", ko:"교육의, 교육적인"},
+    {n:36, w:"harm", pos:"동", def:"to hurt somebody or to damage something", def_ko:"누군가를 다치게 하거나 무언가를 손상시키다", ko:"해치다"},
+    {n:37, w:"turtle", pos:"명", def:"an animal with a hard shell that lives in the sea", def_ko:"바다에 사는, 단단한 등딱지를 가진 동물", ko:"바다 거북"},
+    {n:38, w:"go down", pos:"", def:"to move to a lower place or level", def_ko:"더 낮은 곳이나 수준으로 움직이다", ko:"(해 · 달이) 지다"},
+    {n:39, w:"against", pos:"전", def:"close to and touching or hitting somebody or something", def_ko:"누군가나 어떤 것에 가까이 닿거나 부딪치며", ko:"~에 맞서"},
+    {n:40, w:"rise", pos:"동", def:"to reach a higher position or level", def_ko:"더 높은 위치나 수준에 이르다", ko:"(해 · 달이) 뜨다"},
+    {n:41, w:"knock", pos:"동", def:"to repeatedly hit a door, etc., often to get someone’s attention", def_ko:"주의를 끌기 위해 문 등을 반복해서 두드리다", ko:"(문을) 두드리다, 노크하다"},
+    {n:42, w:"blow", pos:"동", def:"to move with force or speed", def_ko:"힘이나 속도를 내며 움직이다", ko:"(바람이) 불다"},
+    {n:43, w:"by the way", pos:"", def:"used to introduce a new topic or to add more information", def_ko:"새로운 화제를 꺼내거나 정보를 덧붙일 때 쓰는 말", ko:"그런데"},
+    {n:44, w:"surf", pos:"동", def:"to ride on ocean waves while standing on a board", def_ko:"보드 위에 서서 바다의 파도를 타다", ko:"파도타기를 하다"},
+    {n:45, w:"traveler", pos:"명", def:"a person who is traveling", def_ko:"여행하고 있는 사람", ko:"여행자"},
+    {n:46, w:"outdoor", pos:"형", def:"located outside", def_ko:"바깥에 있는", ko:"야외의"},
+    {n:47, w:"stadium", pos:"명", def:"a large sports ground surrounded by seats", def_ko:"좌석으로 둘러싸인 큰 스포츠 경기장", ko:"경기장"},
+    {n:48, w:"magazine", pos:"명", def:"a thin book with pictures and stories that is published regularly", def_ko:"정기적으로 발행되는, 그림과 이야기가 있는 얇은 책", ko:"잡지"},
+    {n:49, w:"field", pos:"명", def:"an area of land used for growing crops", def_ko:"농작물을 기르는 데 쓰이는 땅", ko:"밭"},
+    {n:50, w:"delight", pos:"명", def:"a feeling of great pleasure", def_ko:"큰 기쁨의 감정", ko:"기쁨, 즐거움"},
+  ],
+  L7: [
+    {n: 1, w:"prefer", pos:"동", def:"to like a person or thing better than another", def_ko:"다른 것보다 어떤 사람이나 것을 더 좋아하다", ko:"(더) 좋아하다"},
+    {n: 2, w:"pair", pos:"명", def:"two things of the same type that are usually used together", def_ko:"보통 함께 사용되는 같은 종류의 물건 두 개", ko:"한 켤레 [쌍]"},
+    {n: 3, w:"metal", pos:"명", def:"a hard, usually shiny substance such as iron, gold, or steel", def_ko:"철, 금, 강철같이 단단하고 보통 반짝이는 물질", ko:"금속"},
+    {n: 4, w:"exchange", pos:"동", def:"to give something to somebody and receive something back", def_ko:"누군가에게 무언가를 주고 무언가를 돌려받다", ko:"교환하다"},
+    {n: 5, w:"customer", pos:"명", def:"a person who buys goods or services", def_ko:"상품이나 서비스를 사는 사람", ko:"손님, 고객"},
+    {n: 6, w:"clerk", pos:"명", def:"a person who serves customers in a store", def_ko:"가게에서 손님을 응대하는 사람", ko:"점원, 직원"},
+    {n: 7, w:"pencil case", pos:"", def:"a small container for holding pens, pencils, etc", def_ko:"펜, 연필 등을 넣는 작은 통", ko:"필통"},
+    {n: 8, w:"try on", pos:"", def:"to put on a piece of clothing to see if it fits and if you like it", def_ko:"맞는지, 마음에 드는지 보려고 옷을 입어 보다", ko:"(옷 등을) 입어 보다"},
+    {n: 9, w:"mirror", pos:"명", def:"a piece of glass that shows a reflection", def_ko:"반사된 모습을 보여 주는 유리", ko:"거울"},
+    {n:10, w:"helpful", pos:"형", def:"willing to help someone", def_ko:"기꺼이 누군가를 도우려 하는", ko:"기꺼이 돕는"},
+    {n:11, w:"birthday", pos:"명", def:"the day you were born", def_ko:"네가 태어난 날", ko:"생일"},
+    {n:12, w:"flea market", pos:"", def:"an outdoor market where used or old goods are sold at low prices", def_ko:"쓰던 물건이나 오래된 물건을 싸게 파는 야외 시장", ko:"벼룩시장"},
+    {n:13, w:"for sale", pos:"", def:"available to be bought", def_ko:"살 수 있게 내놓은", ko:"팔려고 내놓은"},
+    {n:14, w:"stand", pos:"명", def:"a table or structure where things are displayed or sold", def_ko:"물건을 진열하거나 파는 탁자나 구조물", ko:"가판대"},
+    {n:15, w:"economy", pos:"명", def:"the relationship between production, trade, and money supply in a region or country", def_ko:"한 지역이나 나라의 생산, 무역, 통화 공급 사이의 관계", ko:"경제"},
+    {n:16, w:"give away", pos:"", def:"to give something for free or as a gift", def_ko:"무언가를 공짜로 또는 선물로 주다", ko:"무료로 주다"},
+    {n:17, w:"secondhand", pos:"형", def:"used or owned in the past by somebody else", def_ko:"과거에 다른 사람이 쓰거나 소유했던", ko:"중고의"},
+    {n:18, w:"rental", pos:"명", def:"the act of renting something", def_ko:"무언가를 빌려주고 빌리는 일", ko:"임대, 대여"},
+    {n:19, w:"rent", pos:"동", def:"to pay money to someone so that you can use something they own", def_ko:"남의 것을 쓰기 위해 돈을 내다", ko:"빌리다, 임차하다"},
+    {n:20, w:"lock", pos:"명", def:"a device that keeps a door, box, etc. from being opened", def_ko:"문, 상자 등이 열리지 않게 하는 장치", ko:"자물쇠"},
+    {n:21, w:"spend", pos:"동", def:"to give money as a payment for goods, services, etc", def_ko:"상품, 서비스 등의 값으로 돈을 내다", ko:"(돈을) 쓰다"},
+    {n:22, w:"scan", pos:"동", def:"to look at or examine something carefully or quickly", def_ko:"무언가를 주의 깊게 또는 빠르게 살펴보다", ko:"스캔하다, 훑다"},
+    {n:23, w:"allow", pos:"동", def:"to let somebody do something or let something happen", def_ko:"누군가 무언가를 하게 하거나 어떤 일이 일어나게 두다", ko:"허락하다, 가능하게 하다"},
+    {n:24, w:"easily", pos:"부", def:"without problems or difficulty", def_ko:"문제나 어려움 없이", ko:"쉽게"},
+    {n:25, w:"free", pos:"형", def:"costing nothing", def_ko:"돈이 들지 않는", ko:"무료의"},
+    {n:26, w:"instead of", pos:"", def:"in place of someone or something", def_ko:"누군가나 어떤 것 대신에", ko:"~대신에"},
+    {n:27, w:"in good condition", pos:"", def:"well-maintained and working properly", def_ko:"잘 관리되어 제대로 작동하는", ko:"상태가 좋은"},
+    {n:28, w:"head for", pos:"", def:"to move toward a place or thing", def_ko:"어떤 장소나 사물을 향해 움직이다", ko:"~로 향하다"},
+    {n:29, w:"condition", pos:"명", def:"the particular state that somebody or something is in", def_ko:"누군가나 어떤 것이 처해 있는 특정한 상태", ko:"상태"},
+    {n:30, w:"wallet", pos:"명", def:"a small folding case for holding money, credit cards, etc", def_ko:"돈, 신용 카드 등을 넣는 작은 접이식 지갑", ko:"지갑"},
+    {n:31, w:"cash", pos:"명", def:"money in the form of coins or notes", def_ko:"동전이나 지폐 형태의 돈", ko:"현금"},
+    {n:32, w:"scratch", pos:"명", def:"a cut or mark made by scratching", def_ko:"긁어서 생긴 상처나 자국", ko:"긁힌 자국"},
+    {n:33, w:"stay out", pos:"", def:"to remain away from home in the evening or at night", def_ko:"저녁이나 밤에 집에 들어가지 않고 밖에 있다", ko:"(밤에) 집 밖에 있다"},
+    {n:34, w:"water", pos:"동", def:"to pour water on plants, soil, etc", def_ko:"식물, 흙 등에 물을 붓다", ko:"(식물에) 물을 주다"},
+    {n:35, w:"lake", pos:"명", def:"a large body of water that has land all around it", def_ko:"사방이 육지로 둘러싸인 큰 물", ko:"호수"},
+    {n:36, w:"forget", pos:"동", def:"to not remember something", def_ko:"무언가를 기억하지 못하다", ko:"잊다"},
+    {n:37, w:"scarf", pos:"명", def:"a piece of cloth that is worn over the hair or shoulders or around the neck", def_ko:"머리나 어깨 위 또는 목에 두르는 천", ko:"목도리, 스카프"},
+    {n:38, w:"sneaker", pos:"명", def:"a light, comfortable shoe that you wear for sports", def_ko:"운동할 때 신는 가볍고 편한 신발", ko:"운동화"},
+    {n:39, w:"boot", pos:"명", def:"a type of shoe that covers the foot and the lower part of the leg", def_ko:"발과 다리 아랫부분을 덮는 신발의 한 종류", ko:"부츠, 장화"},
+    {n:40, w:"go well with", pos:"", def:"to suit each other or look or taste good together", def_ko:"서로 잘 어울리거나 함께 보기 좋다, 맛이 좋다", ko:"~와 잘 어울리다"},
+    {n:41, w:"gray", pos:"형", def:"having the color of ashes or dark clouds", def_ko:"재나 어두운 구름의 색을 띠는", ko:"회색의"},
+    {n:42, w:"daughter", pos:"명", def:"a person’s female child", def_ko:"사람의 여자 아이", ko:"딸"},
+    {n:43, w:"expensive", pos:"형", def:"costing a lot of money", def_ko:"돈이 많이 드는", ko:"비싼"},
+    {n:44, w:"wise", pos:"형", def:"able to make good decisions because of the knowledge and experience you have", def_ko:"가진 지식과 경험 덕분에 좋은 결정을 내릴 수 있는", ko:"현명한, 지혜로운"},
+  ],
 };
 
 const LESSON_META = {
-  L1: { title:"Lesson 1", subtitle:"Welcome to My Place", planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
-  L2: { title:"Lesson 2", subtitle:"Together We Can",     planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
-  L3: { title:"Lesson 3", subtitle:"Festival Time",       planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
-  L4: { title:"Lesson 4", subtitle:"Healthy Habits",      planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L1: { title:"Lesson 1", subtitle:"Together with Friends",  planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L2: { title:"Lesson 2", subtitle:"The Joy of Helping",     planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L3: { title:"Lesson 3", subtitle:"Happy School Days",      planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L4: { title:"Lesson 4", subtitle:"Always Stay Healthy",    planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L5: { title:"Lesson 5", subtitle:"We're All Special",      planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L6: { title:"Lesson 6", subtitle:"Let's Travel!",          planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
+  L7: { title:"Lesson 7", subtitle:"Buy, Sell, Share",       planets: ["🚀 Launch Pad","🌙 Moon Base","🪐 Saturn","🌌 Nebula","⭐ Star Core"] },
 };
 
 const PLANET_PRESETS = [
@@ -654,7 +807,7 @@ const MAX_HEARTS = 7;
 const TIME_PER_Q = 15;
 const TIME_BONUS_PER_SEC = 25;
 
-let curLesson = null; // "L1".."L4"
+let curLesson = null; // "L1".."L7"
 
 function defaultLessonState(L){
   const planetCount = makePlanetsFor(L).length;
@@ -671,7 +824,7 @@ function defaultLessonState(L){
   };
 }
 function defaultRoot(){
-  return { lessons: { L1:defaultLessonState("L1"), L2:defaultLessonState("L2"), L3:defaultLessonState("L3"), L4:defaultLessonState("L4") } };
+  return { lessons: Object.fromEntries(["L1","L2","L3","L4","L5","L6","L7"].map(L=>[L, defaultLessonState(L)])) };
 }
 function loadRoot(){
   try{
@@ -680,7 +833,7 @@ function loadRoot(){
     const parsed = JSON.parse(raw);
     const root = defaultRoot();
     if(parsed.lessons){
-      for(const L of ["L1","L2","L3","L4"]){
+      for(const L of ["L1","L2","L3","L4","L5","L6","L7"]){
         if(parsed.lessons[L]) root.lessons[L] = Object.assign(defaultLessonState(L), parsed.lessons[L]);
       }
     }
@@ -904,7 +1057,7 @@ function renderLessonPick(){
   stopTimer(); stopBgm();
   renderHUD();
   const grid = $("#lessonGrid"); grid.innerHTML = "";
-  for(const L of ["L1","L2","L3","L4"]){
+  for(const L of ["L1","L2","L3","L4","L5","L6","L7"]){
     const meta = LESSON_META[L];
     const ls = R.lessons[L];
     const planets = makePlanetsFor(L);
